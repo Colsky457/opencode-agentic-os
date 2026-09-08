@@ -8,7 +8,7 @@ export default function RouterPage() {
       <DashFrame
         kicker="gateway"
         title="Router · 9router"
-        url="http://127.0.0.1:20128/dashboard"
+        url="/api/9router/dashboard"
         target="router"
         downHint="9router isn't responding — it normally runs as a background tray process. (Never stop it from here: Hermes' models route through it.)"
         loginHint="Embedded login is blocked by your browser. Open 9router in a full tab to log in."
