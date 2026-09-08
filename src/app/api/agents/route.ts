@@ -63,6 +63,10 @@ export async function GET() {
 export async function POST(req: Request) {
   const body = await req.json().catch(() => ({}));
   const agents = await getAgents();
+  // Field-less ping (old clients): ensure seeds exist, never mint junk.
+  if (!body.name && !body.persona && !body.systemPrompt && !body.model && !body.provider) {
+    return NextResponse.json({ agents });
+  }
   const now = Date.now();
   const agent: Agent = {
     id: uid("ag"),

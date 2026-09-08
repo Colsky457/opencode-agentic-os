@@ -35,14 +35,9 @@ export default function AgentsPage() {
   }, []);
 
   useEffect(() => {
-    // seed defaults on first visit if empty
-    fetch("/api/agents", { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" })
-      .then((r) => r.json())
-      .then((d) => {
-        if (d.agents) setAgents(d.agents);
-        else refresh();
-      })
-      .catch(() => refresh());
+    // GET auto-provisions one agent per installed provider; no seed POST
+    // (POST {} on mount used to mint a junk "New Agent" every visit).
+    refresh();
     const t = setInterval(refresh, 5000);
     return () => clearInterval(t);
   }, [refresh]);
