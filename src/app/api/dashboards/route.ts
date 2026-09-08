@@ -2,8 +2,8 @@ import { spawn } from "child_process";
 import { NextResponse } from "next/server";
 import { loadConfigSync, providerBin } from "@/lib/config";
 
-export const HERMES_URL = "http://127.0.0.1:9119";
-export const ROUTER_URL = "http://127.0.0.1:20128/dashboard";
+const HERMES_URL = "http://127.0.0.1:9119";
+const ROUTER_URL = "http://127.0.0.1:20128/dashboard";
 
 async function probe(url: string, ms = 4000): Promise<boolean> {
   try {

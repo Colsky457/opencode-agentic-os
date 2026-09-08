@@ -1,7 +1,7 @@
 {
   "$comment": "AgenticOS config — copy to os.config.json and edit. Env vars override everything (OS_PORT, OS_HOST, BRAIN_DIR, CLAUDE_BIN).",
   "server": { "host": "127.0.0.1", "port": 3000 },
-  "paths": { "brain": "~/brain", "data": "./data", "workspaces": "./workspaces" },
+  "paths": { "brain": "./.agent_brain", "data": "./.agent_state", "workspaces": "./workspaces" },
   "providers": {
     "default": "claude",
     "claude": { "bin": "claude", "enabled": true },

@@ -16,6 +16,7 @@ import { detectProviders } from "@/lib/providers";
 import { routePrompt } from "@/lib/routing";
 import { getRunner } from "@/lib/runners";
 import { gateTool } from "@/lib/tools";
+import { appendTranscriptEvent } from "@/lib/transcripts";
 import { searchVault } from "@/lib/vault";
 
 /** Demo-mode fake stream when provider quota is exhausted or user toggles demo. */
@@ -107,9 +108,11 @@ export async function POST(req: Request) {
   }
   session.provider = runner.id;
   session.autoRouted = autoRouted;
-  session.messages.push({ role: "user", content: message, ts: Date.now() });
+  const userMsg = { role: "user", content: message, ts: Date.now() } as const;
+  session.messages.push(userMsg);
   session.updatedAt = Date.now();
   await saveSessions(sessions);
+  void appendTranscriptEvent(session, userMsg);
 
   const encoder = new TextEncoder();
   const sessionRef = session;
@@ -131,6 +134,7 @@ export async function POST(req: Request) {
         sessionRef.updatedAt = Date.now();
         await saveSessions(sessions);
         brainSave();
+        void appendTranscriptEvent(sessionRef, sessionRef.messages[sessionRef.messages.length - 1]);
         await logUsage({
           id: uid("u"),
           ts: Date.now(),
@@ -205,6 +209,7 @@ export async function POST(req: Request) {
         sessionRef.updatedAt = Date.now();
         await saveSessions(sessions);
         brainSave();
+        void appendTranscriptEvent(sessionRef, sessionRef.messages[sessionRef.messages.length - 1]);
         await logUsage({
           id: uid("u"),
           ts: Date.now(),

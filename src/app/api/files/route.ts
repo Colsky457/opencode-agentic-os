@@ -1,6 +1,7 @@
 import { promises as fs } from "fs";
 import path from "path";
 import { NextResponse } from "next/server";
+import { upsertAinode } from "@/lib/ainode";
 import { WORKSPACES_DIR } from "@/lib/store";
 
 /** Resolve a user path safely inside workspaces/. Returns null on escape. */
@@ -61,5 +62,6 @@ export async function POST(req: Request) {
   const content = String(body.content ?? "").slice(0, 200_000);
   await fs.mkdir(path.dirname(target), { recursive: true });
   await fs.writeFile(target, content, "utf8");
+  void upsertAinode(target);
   return NextResponse.json({ ok: true });
 }

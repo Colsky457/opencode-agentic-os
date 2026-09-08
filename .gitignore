@@ -5,11 +5,16 @@ out/
 
 # local memory + workspaces (machine-local state)
 data/
+.agent_state/
+.agent_brain/
 workspaces/
 
-# brain vault (symlink → ~/brain, personal knowledge)
+# legacy brain vault symlink (vault now lives at ./.agent_brain)
 brain/
 brain
+
+# local backups (never commit)
+*.bak-*
 
 # build info
 *.tsbuildinfo

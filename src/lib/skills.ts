@@ -1,3 +1,5 @@
+import { existsSync, readdirSync, readFileSync } from "fs";
+import path from "path";
 import { loadConfigSync, resolvePath } from "./config";
 
 export interface SkillMeta {
@@ -10,31 +12,65 @@ export interface SkillMeta {
 
 // NOTE: task steps run as isolated CLI calls (no shared context between
 // steps), so every skill is a single self-contained step.
-const SKILLS: (SkillMeta & { step: string })[] = [
-  {
-    id: "cleanup",
-    name: "Vault cleanup",
-    icon: "🧹",
-    blurb: "Dedupe + organize brain vault",
-    provider: "hermes",
-    step: `You are the Operations Manager for a personal knowledge vault rooted at {brain}/Agentic OS (subfolders: Chats, Goals, Journal, Daily Notes). Audit the markdown notes: merge near-duplicate notes (keep the fuller version), fix broken or missing frontmatter, move misfiled notes into the right subfolder, and remove only empty or junk files. NEVER delete notes with real writing in them. When done, reply with a short report: a CHANGED list (file → what you did) and then DONE.`,
-  },
-];
+// Source of truth: `.agents/skills/*/SKILL.md` (frontmatter + body).
+
+function skillsDir(): string {
+  return path.join(process.cwd(), ".agents", "skills");
+}
+
+function parseSkill(id: string, raw: string): (SkillMeta & { step: string }) | null {
+  const m = /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/.exec(raw.trim());
+  if (!m) return null;
+  const meta: Record<string, string> = {};
+  for (const line of m[1].split("\n")) {
+    const i = line.indexOf(":");
+    if (i > 0) meta[line.slice(0, i).trim().toLowerCase()] = line.slice(i + 1).trim();
+  }
+  const step = m[2].trim();
+  if (!step) return null;
+  return {
+    id,
+    name: meta.name || id,
+    icon: meta.icon || "⚙️",
+    blurb: meta.blurb || "",
+    provider: meta.provider || "hermes",
+    step,
+  };
+}
+
+function loadSkills(): (SkillMeta & { step: string })[] {
+  try {
+    const dir = skillsDir();
+    if (!existsSync(dir)) return [];
+    return readdirSync(dir, { withFileTypes: true })
+      .filter((e) => e.isDirectory())
+      .map((e) => {
+        try {
+          return parseSkill(e.name, readFileSync(path.join(dir, e.name, "SKILL.md"), "utf8"));
+        } catch {
+          return null;
+        }
+      })
+      .filter((s): s is SkillMeta & { step: string } => s !== null);
+  } catch {
+    return [];
+  }
+}
 
 function brainDir(): string {
   try {
     return resolvePath(loadConfigSync().paths.brain);
   } catch {
-    return "~/brain";
+    return resolvePath("./.agent_brain");
   }
 }
 
 export function listSkills(): SkillMeta[] {
-  return SKILLS.map(({ id, name, icon, blurb, provider }) => ({ id, name, icon, blurb, provider }));
+  return loadSkills().map(({ id, name, icon, blurb, provider }) => ({ id, name, icon, blurb, provider }));
 }
 
 export function renderSkill(id: string): { title: string; steps: string; provider: string } | null {
-  const s = SKILLS.find((x) => x.id === id);
+  const s = loadSkills().find((x) => x.id === id);
   if (!s) return null;
   return { title: `Skill: ${s.name}`, steps: s.step.replaceAll("{brain}", brainDir()), provider: s.provider };
 }

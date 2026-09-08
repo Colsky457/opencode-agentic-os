@@ -99,8 +99,9 @@ Requires a secure context — `http://127.0.0.1` qualifies, so local use works.
 
 ## 🧠 Second brain (auto-save)
 
-The wizard asks where your vault lives (default `~/brain`). Everything lands
-in `<vault>/Agentic OS/` as plain markdown (Obsidian-friendly, frontmatter included):
+The vault lives at `./.agent_brain` (repo-local, gitignored; override with
+`paths.brain`). Everything lands in `<vault>/Agentic OS/` as plain markdown
+(Obsidian-friendly, frontmatter included):
 
 - **Chats** → `Chats/YYYY-MM-DD/HH-MM-<title>.md` — one file per chat, rewritten
   after every exchange with the full transcript
@@ -109,6 +110,25 @@ in `<vault>/Agentic OS/` as plain markdown (Obsidian-friendly, frontmatter inclu
   re-synced on every change
 - **Journal** → `Journal/YYYY-MM-DD.md` — entries appended under `## HH:MM`
 - **Daily Notes** → `Daily Notes/YYYY-MM-DD.md` — nightly digest (see below)
+
+## 🗂️ Agentic filesystem (AgentOS-FS layout)
+
+```
+.agents/          procedural memory — rules/ + skills/*/SKILL.md (committed)
+.agent_state/     kernel state — JSON stores, task logs, a_fs.db, branches/ (local)
+.agent_brain/     vault root + episodic store — Agentic OS/ + <sessionId>/
+                    /{transcript.jsonl, transcript_full.jsonl, artifacts/, scratch/}
+workspaces/       Tier 3 pool — one isolated cwd per agent (local)
+```
+
+- **A-Inode catalog** (`.agent_state/a_fs.db`, SQLite): per-file tokens,
+  L0/L1/L2 digests, provenance, capabilities. Backfill via
+  `POST /api/ainode`; auto-updated on every files/brain write. Embeddings
+  stay NULL until the vault embedder is wired in.
+- **Transcripts**: every chat exchange appends to both JSONL files;
+  `scripts/export-transcripts.mjs` re-exports all sessions from scratch.
+- `~/brain` is legacy — migrate `Agentic OS/` into `./.agent_brain/` and
+  repoint `paths.brain`.
 
 ## 🌙 Nightly Digest (8pm, written by Hermes)
 
