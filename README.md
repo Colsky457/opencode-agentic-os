@@ -28,6 +28,18 @@ Prerequisites: **node 20+** and at least one AI CLI (e.g. `npm install -g
 @anthropic-ai/claude-code`). No CLI? The wizard lets you continue into
 **demo mode** — the whole OS stays explorable with zero quota burn.
 
+## Daily use
+
+```bash
+./start.sh   # production server + ensures 9router, Hermes gateway + dashboard
+./stop.sh    # halts the OS and the services above (reverse order, scoped kills)
+```
+
+`start.sh` boots machine services first (9router localhost-only on `:20128`,
+Hermes gateway default profile, Hermes dashboard on `:9119`), warns instead
+of failing if one won't come up, then `exec`s the production server (Ctrl+C
+stops the OS only — services keep running).
+
 ## Configuration
 
 Everything lives in **`os.config.json`** (created by the wizard; gitignored —
