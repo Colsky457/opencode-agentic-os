@@ -41,7 +41,7 @@ export type Decision =
 
 function levelLabel(tool: string): string {
   if (tool.startsWith("cli:")) {
-    const known: Record<string, string> = { claude: "Claude Code", opencode: "opencode", hermes: "Hermes" };
+    const known: Record<string, string> = { claude: "Claude Code", opencode: "opencode", hermes: "Hermes", antigravity: "Antigravity" };
     return known[tool.slice(4)] ?? tool;
   }
   return tool;

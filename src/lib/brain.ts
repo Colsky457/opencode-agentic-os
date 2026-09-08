@@ -72,7 +72,7 @@ export async function saveChatToBrain(session: ChatSession, agentName?: string):
     "---",
     `title: "${session.title.replace(/"/g, "'")}"`,
     `date: ${new Date(session.createdAt).toISOString()}`,
-    `agent: ${agentName ?? "Claude"}`,
+    `agent: ${agentName ?? session.provider ?? "AI"}`,
     `model: ${session.model}`,
     `session: ${session.id}`,
     "type: chat",
@@ -80,12 +80,12 @@ export async function saveChatToBrain(session: ChatSession, agentName?: string):
     "",
     `# ${session.title}`,
     "",
-    `*${new Date(session.createdAt).toLocaleString()} · with ${agentName ?? "Claude"} · ${session.model}*`,
+    `*${new Date(session.createdAt).toLocaleString()} · with ${agentName ?? session.provider ?? "AI"} · ${session.model}*`,
     "",
   ];
   for (const m of session.messages) {
     if (m.role === "system") continue;
-    const who = m.role === "user" ? "🧑 You" : `✦ ${agentName ?? "Claude"}`;
+    const who = m.role === "user" ? "🧑 You" : `✦ ${agentName ?? session.provider ?? "AI"}`;
     const clock = new Date(m.ts).toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
     lines.push(`## ${who} · ${clock}`, "", m.content, "");
   }

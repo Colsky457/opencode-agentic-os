@@ -79,7 +79,7 @@ export default function PromptsPage() {
       )}
 
       {filtered.length === 0 ? (
-        <EmptyState icon="✎" title="No templates" hint="Save your best prompts here — one click copies them into Claude Chat." />
+        <EmptyState icon="✎" title="No templates" hint="Save your best prompts here — one click copies them into chat." />
       ) : (
         <div className="grid gap-3 md:grid-cols-2">
           {filtered.map((p, i) => (

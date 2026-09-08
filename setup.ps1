@@ -1,5 +1,5 @@
 #Requires -Version 5.1
-# ◈ ClaudeOS one-command setup (Windows):  git clone <repo>; cd <repo>; .\setup.ps1
+# ◈ AgenticOS one-command setup (Windows):  git clone <repo>; cd <repo>; .\setup.ps1
 $ErrorActionPreference = "Stop"
 
 function Say($m) { Write-Host "◈ $m" }

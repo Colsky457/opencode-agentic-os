@@ -1,8 +1,8 @@
 {
-  "name": "claude-mission-control",
+  "name": "agentic-os",
   "version": "0.1.0",
   "private": true,
-  "description": "Dopamine-inducing local mission control OS for Claude Code CLI + AI agents",
+  "description": "Local agentic mission-control OS for AI CLIs and agent fleets",
   "scripts": {
     "dev": "node scripts/run.mjs dev",
     "build": "node scripts/run.mjs build",

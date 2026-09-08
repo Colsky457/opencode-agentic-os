@@ -28,6 +28,6 @@ if (mode === "build") {
 }
 
 const args = mode === "start" ? ["start", "-p", String(port), "-H", host] : ["dev", "--webpack", "-p", String(port), "-H", host];
-console.log(`◈ ClaudeOS ${mode} → http://${host}:${port}`);
+console.log(`◈ AgenticOS ${mode} → http://${host}:${port}`);
 const child = spawn(process.execPath, [nextBin, ...args], { stdio: "inherit", cwd: root });
 child.on("exit", (code) => process.exit(code ?? 0));

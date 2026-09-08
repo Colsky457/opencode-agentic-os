@@ -83,7 +83,7 @@ export default function UsagePage() {
               <span className="ml-auto font-mono">{formatTokens(u.inputTokens + u.outputTokens)} tok · ${Number(u.costUsd).toFixed(4)}</span>
             </div>
           ))}
-          {(data?.recent ?? []).length === 0 && <div className="py-6 text-center text-sm opacity-50">no calls logged yet — chat with Claude to light up the ledger</div>}
+          {(data?.recent ?? []).length === 0 && <div className="py-6 text-center text-sm opacity-50">no calls logged yet — send a chat to light up the ledger</div>}
         </div>
       </Card>
     </div>

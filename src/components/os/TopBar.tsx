@@ -11,6 +11,7 @@ export function TopBar() {
   const paletteOpen = useOs((s) => s.paletteOpen);
   const set = useOs((s) => s.set);
   const claudeVersion = useOs((s) => s.claudeVersion);
+  const providerId = useOs((s) => s.providerId);
   const quotaError = useOs((s) => s.claudeQuotaError);
   const demoMode = useOs((s) => s.demoMode);
   const serverAddr = useOs((s) => s.serverAddr);
@@ -21,6 +22,7 @@ export function TopBar() {
       .then((d) => {
         set({
           claudeVersion: d.claudeVersion ?? null,
+          providerId: d.provider ?? null,
           claudeQuotaError: d.lastError ?? null,
           serverAddr: d.server ? `${d.server.host}:${d.server.port}` : null,
         });
@@ -46,7 +48,7 @@ export function TopBar() {
         </div>
         <div className="leading-tight">
           <div className="font-display text-sm font-bold tracking-tight">
-            CLAUDE<span className="shimmer-text">OS</span>
+            AGENTIC<span className="shimmer-text">OS</span>
           </div>
           <div className="text-[10px] tracking-[0.25em] text-current uppercase opacity-50">
             mission control
@@ -54,7 +56,7 @@ export function TopBar() {
         </div>
       </div>
 
-      {/* Claude link status */}
+      {/* provider link status */}
       <div
         className={cn(
           "ml-2 hidden items-center gap-2 rounded-full border px-3 py-1 text-xs sm:flex",
@@ -62,7 +64,7 @@ export function TopBar() {
             ? "border-amber-400/40 bg-amber-400/10"
             : "border-emerald-400/30 bg-emerald-400/10"
         )}
-        title={quotaError ?? `Claude CLI ${claudeVersion ?? ""} connected`}
+        title={quotaError ?? `${providerId ?? "AI"} CLI ${claudeVersion ?? ""} connected`}
       >
         <span className="relative flex h-2 w-2">
           <AnimatePresence>
@@ -82,7 +84,7 @@ export function TopBar() {
           />
         </span>
         <span className="opacity-80">
-          {quotaError ? "quota exhausted" : `claude ${claudeVersion ?? "…"}`}
+          {quotaError ? "quota exhausted" : `${providerId ?? "ai"} ${claudeVersion ?? "…"}`}
         </span>
       </div>
 

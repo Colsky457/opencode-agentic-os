@@ -204,8 +204,8 @@ export async function getGraph(): Promise<{ nodes: GraphNode[]; edges: GraphEdge
   if (g.nodes.length > 0) return g;
   const seed = {
     nodes: [
-      { id: "n_mission", label: "Mission Control", type: "idea", detail: "Local Claude OS" },
-      { id: "n_claude", label: "Claude Code CLI", type: "agent", detail: "Local bridge" },
+      { id: "n_mission", label: "Mission Control", type: "idea", detail: "Local Agentic OS" },
+      { id: "n_claude", label: "Default provider CLI", type: "agent", detail: "Local bridge" },
     ] as GraphNode[],
     edges: [{ from: "n_mission", to: "n_claude", label: "powered by" }] as GraphEdge[],
   };

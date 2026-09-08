@@ -61,7 +61,7 @@ export async function gatherDay(day: string): Promise<{ context: string; counts:
 
   parts.push(`\n## Chats (${chats.length} sessions)`);
   for (const s of chats) {
-    parts.push(`### ${s.title} (via ${s.provider || "claude"})`);
+    parts.push(`### ${s.title} (via ${s.provider || "ai"})`);
     for (const m of s.messages) {
       if (m.role === "system") continue;
       const who = m.role === "user" ? "You" : "AI";
@@ -114,14 +114,14 @@ export interface DigestResult {
 
 /**
  * Run the nightly digest for a date (default today): gather → Hermes (retries)
- * → Claude fallback → vault note. Idempotent per date.
+  * → fallback provider → vault note. Idempotent per date.
  */
 export async function runDigest(day: string = dayStamp()): Promise<DigestResult> {
   const cfg = loadConfigSync();
-  const dcfg = cfg.digest ?? { enabled: true, time: "20:00", noteDir: "Daily Notes", maxChars: 12000, retries: 3, fallback: "claude" };
+  const dcfg = cfg.digest ?? { enabled: true, time: "20:00", noteDir: "Daily Notes", maxChars: 12000, retries: 3, fallback: "hermes" };
   const { context, counts } = await gatherDay(day);
   const hermes = getRunner("hermes");
-  const fallback = getRunner(dcfg.fallback || "claude");
+  const fallback = getRunner(dcfg.fallback || cfg.providers.default || "hermes");
   const prompt = digestPrompt(day, context);
 
   let attempts = 0;

@@ -13,8 +13,8 @@ const sans = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
 
 export const metadata: Metadata = {
-  title: "ClaudeOS — Mission Control",
-  description: "Local mission control for Claude Code CLI and your AI agent fleet.",
+  title: "AgenticOS — Mission Control",
+  description: "Local mission control for your AI agent fleet.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

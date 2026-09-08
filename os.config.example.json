@@ -1,5 +1,5 @@
 {
-  "$comment": "ClaudeOS config — copy to os.config.json and edit. Env vars override everything (OS_PORT, OS_HOST, BRAIN_DIR, CLAUDE_BIN).",
+  "$comment": "AgenticOS config — copy to os.config.json and edit. Env vars override everything (OS_PORT, OS_HOST, BRAIN_DIR, CLAUDE_BIN).",
   "server": { "host": "127.0.0.1", "port": 3000 },
   "paths": { "brain": "~/brain", "data": "./data", "workspaces": "./workspaces" },
   "providers": {
@@ -8,7 +8,8 @@
     "codex": { "bin": "codex", "enabled": false },
     "gemini": { "bin": "gemini", "enabled": false },
     "opencode": { "bin": "opencode", "enabled": false },
-    "hermes": { "bin": "hermes", "enabled": false }
+    "hermes": { "bin": "hermes", "enabled": false },
+    "antigravity": { "bin": "agy", "enabled": false }
   },
   "chat": { "models": ["default", "opus", "sonnet", "haiku"], "permissionMode": "dontAsk" },
   "ui": { "theme": "system", "demoMode": false },
@@ -19,7 +20,8 @@
     "keywords": {
       "claude": ["architect", "plan", "review", "design"],
       "opencode": ["build", "refactor", "fix code", "test", "git"],
-      "hermes": ["note", "journal", "goal", "summary", "quick question"]
+      "hermes": ["note", "journal", "goal", "summary", "quick question"],
+      "antigravity": ["research", "investigate", "deep dive", "compare", "sources"]
     }
   },
   "platforms": {

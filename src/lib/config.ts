@@ -134,9 +134,13 @@ export async function configExists(): Promise<boolean> {
   }
 }
 
+export function defaultBin(id: string): string {
+  return id === "antigravity" ? "agy" : id;
+}
+
 export function providerBin(cfg: OsConfig, id: string): string {
   const p = cfg.providers[id] as ProviderEntry | undefined;
-  return p && typeof p === "object" && p.bin ? p.bin : id;
+  return p && typeof p === "object" && p.bin ? p.bin : defaultBin(id);
 }
 
 export function defaultProvider(cfg: OsConfig): string {

@@ -102,7 +102,7 @@ export default function SetupPage() {
         </div>
         <div className="text-[10px] font-semibold tracking-[0.3em] text-[#ff8c42] uppercase">first run</div>
         <h1 className="font-display text-3xl font-black tracking-tight">
-          Welcome to <span className="shimmer-text">ClaudeOS</span>
+          Welcome to <span className="shimmer-text">AgenticOS</span>
         </h1>
         <p className="mt-1 text-sm opacity-60">Three steps and your mission control is live.</p>
       </div>

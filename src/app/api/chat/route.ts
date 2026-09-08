@@ -18,11 +18,11 @@ import { getRunner } from "@/lib/runners";
 import { gateTool } from "@/lib/tools";
 import { searchVault } from "@/lib/vault";
 
-/** Demo-mode fake stream when Claude quota is exhausted or user toggles demo. */
+/** Demo-mode fake stream when provider quota is exhausted or user toggles demo. */
 const DEMO_LINES = [
-  "Rerouting through local demo core… (Claude quota is exhausted, so I'm simulating.)\n\n",
+  "Rerouting through local demo core… (Provider quota is exhausted, so I'm simulating.)\n\n",
   "Here's the sharp version: your mission control is **online**, the fleet is idle, and shared memory is mapped.\n\n",
-  "Top up the Claude budget pool, then flip **demo mode off** in Settings to resume live inference. Meanwhile — want me to draft a mission brief, spin up a scout agent, or grow the knowledge graph?",
+  "Top up the provider budget pool, then flip **demo mode off** in Settings to resume live inference. Meanwhile — want me to draft a mission brief, spin up a scout agent, or grow the knowledge graph?",
 ];
 
 export async function POST(req: Request) {

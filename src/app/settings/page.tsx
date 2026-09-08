@@ -44,11 +44,11 @@ export default function SettingsPage() {
       </div>
 
       <Card>
-        <SectionTitle kicker="link" title="Claude connection" />
+        <SectionTitle kicker="link" title="Provider connection" />
         <div className="space-y-2 text-sm">
           <div className="flex items-center gap-2">
             <span className="opacity-60">CLI binary:</span>
-            <span className="font-mono">claude</span>
+            <span className="font-mono">{status?.provider ?? "…"}</span>
             <span className="flex-1" />
             {status?.claudeVersion ? <Pill tone="green">● v{status.claudeVersion.match(/[\d.]+/)?.[0]}</Pill> : <Pill tone="red">offline</Pill>}
           </div>
@@ -146,7 +146,7 @@ export default function SettingsPage() {
           <div className="flex items-center gap-2">
             <div>
               <div className="font-bold">Demo mode {demoMode ? "on" : "off"}</div>
-              <div className="text-xs opacity-50">Simulate Claude locally — zero quota burn, full UI tour.</div>
+              <div className="text-xs opacity-50">Simulate the provider locally — zero quota burn, full UI tour.</div>
             </div>
             <span className="flex-1" />
             <button
@@ -165,7 +165,7 @@ export default function SettingsPage() {
           <li>Bound to <span className="font-mono">{status?.server ? `${status.server.host}:${status.server.port}` : "…"}</span> — LAN can't reach it unless you forward.</li>
           <li>Files API is jailed to <span className="font-mono">workspaces/</span>; <span className="font-mono">..</span> escapes return 403.</li>
           <li>Agents run as your user with <span className="font-mono">dontAsk</span> permissions — review tasks before deploying.</li>
-          <li>All memory lives in <span className="font-mono">./data/*.json</span> on this machine. Nothing leaves except Claude API calls.</li>
+          <li>All memory lives in <span className="font-mono">./data/*.json</span> on this machine. Nothing leaves except provider API calls.</li>
         </ul>
       </Card>
     </div>

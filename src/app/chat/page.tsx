@@ -318,10 +318,10 @@ function ChatInner() {
       {/* ── session rail ── */}
       <Card className="h-fit p-3">
         <div className="mb-2 flex items-center gap-2 px-1">
-          <AgentAvatar seed={agentId || "claude-direct"} seedNum={activeAgent?.avatarSeed ?? 0} color={activeAgent?.color ?? "#ff6b1a"} name={activeAgent?.name ?? "Claude"} size={34} status={activeAgent?.status ?? null} />
+          <AgentAvatar seed={agentId || "direct"} seedNum={activeAgent?.avatarSeed ?? 0} color={activeAgent?.color ?? "#ff6b1a"} name={activeAgent?.name ?? "AI"} size={34} status={activeAgent?.status ?? null} />
           <div className="min-w-0 flex-1 leading-tight">
             <div className="truncate font-display text-sm font-bold">{activeAgent ? `with ${activeAgent.name}` : "Direct channel"}</div>
-            <div className="truncate text-[11px] opacity-50">{activeAgent?.persona ?? "Claude Code CLI"}</div>
+            <div className="truncate text-[11px] opacity-50">{activeAgent?.persona ?? "Direct provider channel"}</div>
           </div>
           <button onClick={() => newChat()} title="New chat" className="rounded-full bg-[#ff6b1a]/15 px-3 py-1.5 text-xs font-bold text-[#ffb27a] transition hover:scale-105 hover:bg-[#ff6b1a]/25">
             +
@@ -394,11 +394,11 @@ function ChatInner() {
             <div className="flex items-center gap-3">
               <span className="flex h-[38px] w-[38px] items-center justify-center rounded-xl bg-gradient-to-br from-[#ff6b1a] to-[#8b5cf6] text-lg text-white glow-orange">✦</span>
               <span>
-                <span className="block font-display text-[15px] font-bold leading-tight">Claude</span>
+                <span className="block font-display text-[15px] font-bold leading-tight">Direct</span>
                 <span className="block text-[11px] opacity-50">
                   direct · {(() => {
                     const p = providers.find((x) => x.id === provider);
-                    return p ? `${p.glyph} ${p.label}${p.streaming === false ? " (answers whole)" : ""}` : "Claude Code CLI";
+                    return p ? `${p.glyph} ${p.label}${p.streaming === false ? " (answers whole)" : ""}` : "AI provider";
                   })()}
                 </span>
               </span>
@@ -458,7 +458,7 @@ function ChatInner() {
               <div className="font-display mt-3 text-xl font-bold">
                 {activeAgent ? `Chat with ${activeAgent.name}` : "What are we building today, commander?"}
               </div>
-              <div className="text-sm opacity-50">{activeAgent?.persona ?? "Streaming straight from your local Claude Code CLI."}</div>
+              <div className="text-sm opacity-50">{activeAgent?.persona ?? "Streaming straight from your local AI provider."}</div>
               <div className="mx-auto mt-3 flex max-w-lg flex-wrap justify-center gap-2">
                 {(activeAgent ? [`Brief me as ${activeAgent.name}`, "What can you do for me?", "Draft a plan of attack"] : ["Mission brief: summarize my OS", "Explain how my agent fleet works", "Draft a launch checklist"]).map((s) => (
                   <button key={s} onClick={() => send(s)} className="glass rounded-full px-3 py-1.5 text-xs transition hover:scale-105 hover:border-[#ff6b1a]/50">
@@ -495,7 +495,7 @@ function ChatInner() {
                   <div className={cn("max-w-[82%] sm:max-w-[75%]")}>
                     {!grouped && (
                       <div className={cn("mb-0.5 flex items-baseline gap-2 text-[11px] opacity-50", isUser && "flex-row-reverse")}>
-                        <span className="font-bold">{isUser ? "You" : activeAgent?.name ?? "Claude"}</span>
+                        <span className="font-bold">{isUser ? "You" : activeAgent?.name ?? providers.find((x) => x.id === provider)?.label ?? "AI"}</span>
                         <span>{formatClock(m.ts)}</span>
                       </div>
                     )}
@@ -570,7 +570,7 @@ function ChatInner() {
         {/* error / quota */}
         {err && (
           <div className="mx-4 mb-2 rounded-2xl border border-red-400/40 bg-red-400/10 p-3 text-sm">
-            <span className="font-bold text-red-300">Claude hiccup: </span>
+            <span className="font-bold text-red-300">Provider hiccup: </span>
             <span className="opacity-80">{err.slice(0, 280)}</span>
             {isQuotaErr && (
               <button onClick={() => set({ demoMode: true })} className="ml-2 rounded-full bg-[#8b5cf6]/25 px-3 py-1 text-xs font-bold text-[#c4b0ff] hover:bg-[#8b5cf6]/40">
@@ -602,7 +602,7 @@ function ChatInner() {
                   }
                 }}
                 rows={1}
-                placeholder={activeAgent ? `Message ${activeAgent.name}…  (↵ send · ⇧↵ newline)` : demoMode ? "Demo core listening…" : "Message Claude…  (↵ send · ⇧↵ newline)"}
+                placeholder={activeAgent ? `Message ${activeAgent.name}…  (↵ send · ⇧↵ newline)` : demoMode ? "Demo core listening…" : "Message…  (↵ send · ⇧↵ newline)"}
                 className="max-h-[150px] w-full flex-1 resize-none bg-transparent py-2 text-sm outline-none placeholder:text-white/30"
               />
             </VoiceField>

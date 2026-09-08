@@ -238,23 +238,23 @@ Code that only runs on YOUR computer is a diary. Code that runs on ANYONE's is a
 ];
 
 export const GUIDE_META = {
-  title: "Build Your Own ClaudeOS",
-  subtitle: "From zero to mission control — with Claude holding your hand 🤝",
-  vaultPath: "Guides/Build-Your-Own-ClaudeOS.md",
+  title: "Build Your Own AgenticOS",
+  subtitle: "From zero to mission control — with AI holding your hand 🤝",
+  vaultPath: "Guides/Build-Your-Own-AgenticOS.md",
 };
 
 /** Full vault markdown — hub intro + fast track + all lessons. */
 export function guideVaultMarkdown(): string {
   const parts = [
     "---",
-    'title: "Build Your Own ClaudeOS"',
+    'title: "Build Your Own AgenticOS"',
     "type: guide",
     `updated: ${new Date().toISOString()}`,
     "---",
     "",
-    "# 📖 Build Your Own ClaudeOS",
+    "# 📖 Build Your Own AgenticOS",
     "",
-    "Your friendly guide to building this exact system with Claude. Two ways to play:",
+    "Your friendly guide to building this exact system with AI. Two ways to play:",
     "",
     "- 🚀 **Fast track** — running in 10 minutes (below)",
     "- 🏗️ **Full course** — rebuild it piece by piece (the lessons)",

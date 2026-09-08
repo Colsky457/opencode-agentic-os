@@ -425,11 +425,153 @@ const hermesRunner: Runner = {
   },
 };
 
+// ---------------- Antigravity ----------------
+// stream-json envelope: {"event":"init"|"step_update"|"result",...}
+// deltas at step_update.text_delta, final at result.{conversation_id,status,response,usage}
+function agyDelta(line: string): string | null {
+  try {
+    const evt = JSON.parse(line);
+    if (evt.event === "step_update") {
+      const t = evt.step_update?.text_delta;
+      return typeof t === "string" && t ? t : null;
+    }
+  } catch {}
+  return null;
+}
+
+function agyResult(line: string, startedAt: number): RunMeta | null {
+  try {
+    const evt = JSON.parse(line);
+    if (!evt || evt.event !== "result") return null;
+    const r = evt.result ?? {};
+    const u = r.usage ?? r.result?.usage ?? {};
+    const ok = r.status === "SUCCESS";
+    return {
+      sessionId: typeof r.conversation_id === "string" ? r.conversation_id : null,
+      inputTokens: Number(u.input_tokens) || 0,
+      outputTokens: Number(u.output_tokens) || 0,
+      costUsd: 0, // agy reports usage without cost
+      durationMs: Date.now() - startedAt,
+      isError: !ok,
+      errorText: ok ? null : String(r.response ?? r.error ?? "Antigravity run failed").slice(0, 500),
+    };
+  } catch {
+    return null;
+  }
+}
+
+function agyArgs(prompt: string, o: { model?: string; resumeSessionId?: string }): string[] {
+  const args = ["-p", prompt, "--output-format", "stream-json"];
+  if (o.model) args.push("--model", o.model);
+  if (o.resumeSessionId) args.push("--conversation", o.resumeSessionId);
+  if ((loadConfigSync().chat.permissionMode || "dontAsk") === "dontAsk") {
+    args.push("--dangerously-skip-permissions");
+  }
+  return args;
+}
+
+const antigravityRunner: Runner = {
+  id: "antigravity",
+  label: "Antigravity",
+  glyph: "⬔",
+  color: "#6ea8fe",
+  supportsStreaming: true,
+  bin() {
+    return providerBin(loadConfigSync(), "antigravity");
+  },
+  version() {
+    return versionOf(this.bin());
+  },
+  chat(opts) {
+    return new Promise<RunMeta>((resolve, reject) => {
+      const startedAt = Date.now();
+      const args = agyArgs(opts.prompt, opts);
+
+      const child = spawn(this.bin(), args, {
+        cwd: opts.cwd ?? process.cwd(),
+        env: { ...process.env, TERM: "dumb", NO_COLOR: "1" },
+        stdio: ["ignore", "pipe", "pipe"],
+      });
+
+      let buffer = "";
+      let stderr = "";
+      let sessionId: string | null = opts.resumeSessionId ?? null;
+      let lastResult: RunMeta | null = null;
+      let settled = false;
+      const settle = (m: RunMeta) => { if (!settled) { settled = true; clearTimeout(timer); resolve(m); } };
+      opts.signal?.addEventListener("abort", () => { try { child.kill("SIGTERM"); } catch {} }, { once: true });
+      const timer = setTimeout(() => {
+        try { child.kill("SIGKILL"); } catch {}
+        settle({ ...emptyMeta(), durationMs: Date.now() - startedAt, sessionId, isError: true, errorText: "Antigravity timed out after 5 minutes" });
+      }, 5 * 60 * 1000);
+
+      const sniff = (line: string) => {
+        try {
+          const evt = JSON.parse(line);
+          const id = evt.conversation_id ?? evt.result?.conversation_id;
+          if (typeof id === "string") sessionId = id;
+        } catch {}
+        const delta = agyDelta(line);
+        if (delta) opts.onDelta(delta);
+        const r = agyResult(line, startedAt);
+        if (r) {
+          if (!r.sessionId) r.sessionId = sessionId;
+          lastResult = r;
+        }
+      };
+
+      child.stdout.on("data", (d) => {
+        buffer += d.toString();
+        const parts = buffer.split("\n");
+        buffer = parts.pop() ?? "";
+        for (const line of parts) {
+          const t = line.trim();
+          if (t) sniff(t);
+        }
+      });
+      child.stderr.on("data", (d) => (stderr += d.toString()));
+      child.on("error", (err) => { clearTimeout(timer); reject(new Error(`Failed to launch Antigravity CLI: ${err.message}`)); });
+      child.on("close", (code) => {
+        if (settled) return;
+        if (buffer.trim()) sniff(buffer.trim());
+        const durationMs = Date.now() - startedAt;
+        if (lastResult) return settle({ ...lastResult, durationMs });
+        if (code !== 0) {
+          return settle({ ...emptyMeta(), durationMs, sessionId, isError: true, errorText: stderr.slice(0, 500) || `agy ${exitLabel(code)}` });
+        }
+        settle({ ...emptyMeta(), durationMs, sessionId });
+      });
+    });
+  },
+  taskArgs(task, o) {
+    // agy has no system-prompt flag: fold persona into the message
+    const msg = o.systemPrompt ? `${o.systemPrompt}\n\n${task}` : task;
+    return agyArgs(msg, o);
+  },
+  parseTaskLine(line, _seen) {
+    return { delta: agyDelta(line) || undefined, result: agyResult(line, Date.now()) ?? undefined };
+  },
+  async finishTask(info) {
+    if (info.lastResult) return { result: info.lastResult };
+    let found: RunMeta | null = null;
+    for (const line of info.rawOut.split("\n")) {
+      const r = agyResult(line.trim(), info.startedAt);
+      if (r) found = r;
+    }
+    if (found) return { result: found };
+    if (info.code !== 0) {
+      return { result: { ...emptyMeta(), durationMs: Date.now() - info.startedAt, isError: true, errorText: info.stderr.slice(0, 500) || `agy ${exitLabel(info.code)}` } };
+    }
+    return { result: null };
+  },
+};
+
 // ---------------- registry ----------------
 const REGISTRY: Record<string, Runner> = {
   claude: claudeRunner,
   opencode: opencodeRunner,
   hermes: hermesRunner,
+  antigravity: antigravityRunner,
 };
 
 export function getRunner(id?: string | null): Runner {

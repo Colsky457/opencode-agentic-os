@@ -1,10 +1,10 @@
-# ◈ opencode-agentic-os — Mission Control
+# ◈ AgenticOS — Mission Control
 
 [![Next.js](https://img.shields.io/badge/Next.js-16-black)](https://nextjs.org/)
 [![Tailwind](https://img.shields.io/badge/Tailwind-v4-38bdf8)](https://tailwindcss.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 
-Beautiful local operating system for managing **Claude Code CLI** + an AI agent fleet.
+Beautiful local operating system for managing **AI CLIs** (Hermes, Antigravity, opencode, Claude Code…) + an AI agent fleet.
 Next.js 16 · Tailwind v4 · Framer Motion · localhost only.
 
 ## Screenshots
@@ -46,15 +46,16 @@ Re-run the wizard anytime: Settings → **re-run setup**.
 
 ## AI providers
 
-The wizard probes for `claude`, `codex`, `gemini`, `opencode`, and `hermes`
-(`--version` check) and shows install hints for missing ones. Fully driven
-today (chat + fleet runs + usage ledger):
+The wizard probes for `claude`, `codex`, `gemini`, `opencode`, `hermes`,
+and `agy` (Antigravity) (`--version` check) and shows install hints for
+missing ones. Fully driven today (chat + fleet runs + usage ledger):
 
 | CLI | Mode | Notes |
 |---|---|---|
 | ✦ Claude Code | `claude -p … --output-format stream-json` | live token streaming, session resume |
 | ⬡ opencode | `opencode run … --format json` | live JSON-event streaming, session continue |
 | ☿ Hermes | `hermes -z … --usage-file` | one-shot: thinks whole, then answers; tokens/cost from usage report |
+| ◈ Antigravity | `agy -p … --output-format stream-json` | deep-research specialist, session resume |
 
 `codex` / `gemini` are detected but stubbed ("support coming soon") until a
 runner ships (`src/lib/runners.ts` is the seam — implement `Runner` + register).
@@ -64,7 +65,7 @@ runner ships (`src/lib/runners.ts` is the seam — implement `Runner` + register
 | App | Route | What it does |
 |---|---|---|
 | Command | `/` | Mission overview, fleet status, spend |
-| Claude Chat | `/chat` | Streams `claude -p --output-format stream-json`, history, personas, model picker |
+| AI Chat | `/chat` | Streams your default provider, history, personas, model picker |
 | Agents | `/agents` | Avatar grid → per-agent sections (`/agents/[id]`: overview, console, files, settings) + **real local processes** (run/stop, pid, live log console, isolated `workspaces/<id>/`) |
 | Goals | `/goals` | Missions with status/due/notes — auto-saved to brain |
 | Journal | `/journal` | Daily log with moods — auto-saved to brain |
@@ -124,12 +125,13 @@ journal and writes one note to `<vault>/Agentic OS/Daily Notes/YYYY-MM-DD.md`
 - **Caveat**: if the phone dozes at 8pm, Hermes fires the tick late — the note
   still lands, just timestamped late.
 
-## How the Claude bridge works
+## How the provider bridge works
 
-`src/lib/claude.ts` spawns `claude -p "<prompt>" --output-format stream-json --verbose
---include-partial-messages --permission-mode dontAsk [--model X] [--append-system-prompt Y]
-[--resume SESSION]`. Stdout lines stream to the browser as SSE; the final `result`
-event yields `session_id` + token/cost usage, which is logged and graphed.
+Each AI CLI gets a `Runner` in `src/lib/runners.ts` (e.g. `claude -p "<prompt>"
+--output-format stream-json`, `agy -p … --output-format stream-json`,
+`hermes -z … --usage-file`). Streaming CLIs pipe stdout lines to the browser
+as SSE; the final event yields session + token/cost usage, which is logged
+and graphed. One-shot CLIs (Hermes) think whole, then answer.
 
 Agents reuse the same bridge as detached processes with per-agent `cwd` +
 `agent.log`. Stop = SIGTERM (then SIGKILL fallback).
@@ -138,7 +140,7 @@ Agents reuse the same bridge as detached processes with per-agent `cwd` +
 
 - **No os.config.json / fresh clone** → the app redirects to `/setup` automatically.
 - **Port in use** → wizard checks availability; or set another port and restart.
-- **Claude API errors (e.g. 402 quota)** → surfaced inline in chat with a
+- **Provider API errors (e.g. 402 quota)** → surfaced inline in chat with a
   one-tap demo-mode fallback; top up the budget pool to resume live inference.
 - **Mic missing** → needs Chrome/Edge/Safari + secure context (`127.0.0.1` OK).
 - **Android/Termux** → use `bun`, builds force `--webpack` (Turbopack has no

@@ -41,7 +41,7 @@ export default function DigestPage() {
         body: JSON.stringify(action ? { action } : {}),
       }).then((x) => x.json());
       if (kind === "run") {
-        setMsg(r.ok ? `🌙 Note written via ${r.provider}${r.fallback ? " (Claude fallback)" : ""} → ${r.notePath}` : `✗ ${r.error ?? "digest failed"}`);
+        setMsg(r.ok ? `🌙 Note written via ${r.provider}${r.fallback ? " (fallback)" : ""} → ${r.notePath}` : `✗ ${r.error ?? "digest failed"}`);
       } else if (kind === "install") {
         setMsg(r.ok ? `✓ ${(r.steps ?? []).join(" · ")}` : `✗ ${r.error ?? "install failed"}`);
       } else {
@@ -75,7 +75,7 @@ export default function DigestPage() {
               <div className="flex items-center gap-2">
                 <Pill tone="green">written</Pill>
                 <Pill tone={data.today.fallback ? "amber" : "violet"}>
-                  {data.today.fallback ? "via Claude (fallback)" : "via ☿ Hermes"}
+                  {data.today.fallback ? `via ${data.today.provider} (fallback)` : `via ${data.today.provider}`}
                 </Pill>
               </div>
               <div className="font-mono text-xs opacity-70">{data.today.notePath}</div>
@@ -146,7 +146,7 @@ export default function DigestPage() {
             <div key={r.date + r.ts} className="flex flex-wrap items-center gap-2 rounded-xl bg-white/5 px-3 py-2 text-xs">
               <Pill tone={r.ok ? "green" : "red"}>{r.ok ? "ok" : "err"}</Pill>
               <span className="font-mono opacity-70">{r.date}</span>
-              <span className="opacity-60">{r.fallback ? "via Claude (fallback)" : `via ${r.provider}`}</span>
+              <span className="opacity-60">{r.fallback ? `via ${r.provider} (fallback)` : `via ${r.provider}`}</span>
               <span className="ml-auto font-mono opacity-60">{r.attempts} tries · {r.inputTokens + r.outputTokens} tok</span>
             </div>
           ))}

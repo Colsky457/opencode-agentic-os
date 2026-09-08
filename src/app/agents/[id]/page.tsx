@@ -302,6 +302,7 @@ export default function AgentDetailPage() {
                     <option value="claude">✦ Claude Code</option>
                     <option value="opencode">⬡ opencode</option>
                     <option value="hermes">☿ Hermes</option>
+                    <option value="antigravity">⬔ Antigravity</option>
                   </select>
                   <ProviderBadge id={draft.provider} />
                 </label>

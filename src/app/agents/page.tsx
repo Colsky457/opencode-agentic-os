@@ -121,6 +121,7 @@ export default function AgentsPage() {
                     <option value="claude">✦ Claude Code</option>
                     <option value="opencode">⬡ opencode</option>
                     <option value="hermes">☿ Hermes</option>
+                    <option value="antigravity">⬔ Antigravity</option>
                   </select>
                 </label>
                 <div className="text-xs opacity-50 self-center">gets a unique generative avatar automatically</div>

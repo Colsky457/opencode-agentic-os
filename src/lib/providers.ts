@@ -1,5 +1,5 @@
 import { spawn } from "child_process";
-import { loadConfigSync } from "./config";
+import { defaultBin, loadConfigSync } from "./config";
 
 export interface ProviderInfo {
   id: string;
@@ -17,6 +17,7 @@ export const KNOWN_PROVIDERS: Omit<ProviderInfo, "installed" | "version" | "bin"
   { id: "gemini", label: "Gemini CLI", supported: false, installHint: "npm install -g @google/gemini-cli" },
   { id: "opencode", label: "opencode", supported: true, installHint: "npm install -g opencode-ai" },
   { id: "hermes", label: "Hermes", supported: true, installHint: "See https://github.com/anomalyco/opencode Hermes install docs" },
+  { id: "antigravity", label: "Antigravity", supported: true, installHint: "Install the Antigravity CLI (provides the `agy` binary)" },
 ];
 
 function binVersion(bin: string): Promise<string | null> {
@@ -38,7 +39,7 @@ function configuredBin(id: string): string {
     const p = cfg.providers[id] as { bin?: string } | undefined;
     if (p && typeof p === "object" && p.bin) return p.bin;
   } catch {}
-  return id;
+  return defaultBin(id);
 }
 
 /** Probe every known AI CLI. Safe to call from API routes. Cached 5 min. */

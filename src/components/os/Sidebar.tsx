@@ -33,7 +33,7 @@ export function Sidebar() {
   const set = useOs((s) => s.set);
 
   return (
-    <nav className="glass fixed bottom-3 left-1/2 z-40 flex -translate-x-1/2 items-center gap-1 rounded-2xl p-1.5 md:top-1/2 md:right-3 md:bottom-auto md:left-auto md:translate-x-0 md:-translate-y-1/2 md:flex-col">
+    <nav className="glass fixed bottom-[max(0.75rem,env(safe-area-inset-bottom))] left-1/2 z-40 flex max-w-[calc(100dvw-1.5rem)] -translate-x-1/2 items-center gap-1 overflow-x-auto rounded-2xl p-1.5 [-ms-overflow-style:none] [scrollbar-width:none] md:top-1/2 md:right-3 md:bottom-auto md:left-auto md:max-w-none md:translate-x-0 md:-translate-y-1/2 md:flex-col md:overflow-visible [&::-webkit-scrollbar]:hidden">
       {APPS.map((app) => {
         const route = ROUTES[app.id];
         const active = app.id === "command" ? pathname === "/" : pathname.startsWith(route);
@@ -44,7 +44,7 @@ export function Sidebar() {
             onClick={() => set({ activeApp: app.id })}
             title={`${app.name} — ${app.hint}`}
             className={cn(
-              "group relative flex h-11 w-11 items-center justify-center rounded-xl text-lg transition",
+              "group relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-lg transition md:h-11 md:w-11",
               active ? "text-white" : "opacity-55 hover:scale-110 hover:opacity-100"
             )}
           >

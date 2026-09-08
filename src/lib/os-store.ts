@@ -30,6 +30,7 @@ interface OsState {
   activeAgentId: string | null;
   demoMode: boolean;
   claudeVersion: string | null;
+  providerId: string | null;
   claudeQuotaError: string | null;
   serverAddr: string | null;
   set: (p: Partial<OsState>) => void;
@@ -42,6 +43,7 @@ export const useOs = create<OsState>((set) => ({
   activeAgentId: null,
   demoMode: false,
   claudeVersion: null,
+  providerId: null,
   claudeQuotaError: null,
   serverAddr: null,
   set: (p) => set(p),
@@ -49,7 +51,7 @@ export const useOs = create<OsState>((set) => ({
 
 export const APPS: { id: AppId; name: string; icon: string; hint: string }[] = [
   { id: "command", name: "Command", icon: "◈", hint: "Mission overview" },
-  { id: "chat", name: "Claude Chat", icon: "✦", hint: "Talk to Claude" },
+  { id: "chat", name: "AI Chat", icon: "✦", hint: "Talk to any provider" },
   { id: "agents", name: "Agents", icon: "⬢", hint: "Fleet control" },
   { id: "personas", name: "System & Personas", icon: "🎭", hint: "Platform roles & prompts" },
   { id: "arena", name: "Agent Arena", icon: "⚔️", hint: "Side-by-side collaborate" },

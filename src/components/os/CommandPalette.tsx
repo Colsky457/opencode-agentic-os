@@ -51,7 +51,7 @@ export function CommandPalette() {
     const actions = [
       {
         kind: "action" as const,
-        label: "New chat with Claude",
+        label: "New chat",
         sub: "open chat",
         icon: "✦",
         run: () => {
@@ -62,7 +62,7 @@ export function CommandPalette() {
       {
         kind: "action" as const,
         label: "Toggle demo mode",
-        sub: "simulate Claude offline",
+        sub: "simulate provider offline",
         icon: "◊",
         run: () => {
           set({ paletteOpen: false, demoMode: !useOs.getState().demoMode });

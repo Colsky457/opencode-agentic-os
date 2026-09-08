@@ -30,7 +30,7 @@ export async function POST() {
     // 1. script with baked-in URL
     const dir = path.join(os.homedir(), ".hermes", "scripts");
     await fs.mkdir(dir, { recursive: true });
-    const script = `#!/bin/sh\n# agentic-digest trigger — managed by ClaudeOS. Do not edit by hand.\n# Fires POST ${url} (gather → Hermes → Claude fallback → vault note).\ncurl -sf -m 570 -X POST "${url}" -H 'Content-Type: application/json' -d '{}' || echo "digest trigger failed (server down?)"\n`;
+    const script = `#!/bin/sh\n# agentic-digest trigger — managed by AgenticOS. Do not edit by hand.\n# Fires POST ${url} (gather → Hermes → fallback → vault note).\ncurl -sf -m 570 -X POST "${url}" -H 'Content-Type: application/json' -d '{}' || echo "digest trigger failed (server down?)"\n`;
     await fs.writeFile(path.join(dir, SCRIPT), script, { mode: 0o755 });
     steps.push(`script → ${path.join(dir, SCRIPT)}`);
 

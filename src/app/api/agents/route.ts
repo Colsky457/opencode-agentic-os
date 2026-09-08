@@ -42,7 +42,7 @@ export async function GET() {
         id: uid("ag"),
         name: runner.label,
         persona: `${runner.label} CLI operator`,
-        systemPrompt: `You are ${runner.label}, an AI coding operator running inside ClaudeOS. Be terse, act decisively, report results.`,
+        systemPrompt: `You are ${runner.label}, an AI coding operator running inside AgenticOS. Be terse, act decisively, report results.`,
         model: "",
         color: runner.color,
         avatarSeed: 0,

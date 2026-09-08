@@ -4,6 +4,7 @@ const KNOWN: Record<string, { glyph: string; label: string; color: string }> = {
   claude: { glyph: "✦", label: "Claude", color: "#ff6b1a" },
   opencode: { glyph: "⬡", label: "opencode", color: "#22e6c8" },
   hermes: { glyph: "☿", label: "Hermes", color: "#c084fc" },
+  antigravity: { glyph: "⬔", label: "Antigravity", color: "#6ea8fe" },
 };
 
 /** Tiny provider tag: glyph + label, colored dot. Purely presentational. */

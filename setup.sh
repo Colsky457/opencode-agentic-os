@@ -1,5 +1,5 @@
 #!/bin/sh
-# ◈ ClaudeOS one-command setup:  git clone <repo> && cd <repo> && ./setup.sh
+# ◈ AgenticOS one-command setup:  git clone <repo> && cd <repo> && ./setup.sh
 # POSIX sh. Installs deps, builds, and launches. The web wizard (/setup)
 # handles providers, vault path, and host/port on first run.
 set -e

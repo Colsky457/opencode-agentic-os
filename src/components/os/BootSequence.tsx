@@ -6,7 +6,7 @@ import { useOs } from "@/lib/os-store";
 
 const LINES = [
   "initializing mission control…",
-  "linking to Claude Code CLI…",
+  "linking providers…",
   "waking agent fleet…",
   "mapping shared memory…",
   "systems nominal. welcome, commander.",
@@ -46,7 +46,7 @@ export function BootSequence() {
           </div>
         </motion.div>
         <div className="font-display mb-1 text-center text-2xl font-bold tracking-tight">
-          CLAUDE<span className="shimmer-text">OS</span>
+          AGENTIC<span className="shimmer-text">OS</span>
         </div>
         <div className="mb-6 text-center text-xs tracking-[0.3em] text-white/40 uppercase">
           mission control
