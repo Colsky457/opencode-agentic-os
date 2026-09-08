@@ -42,7 +42,7 @@ export default function GraphPage() {
           <VoiceField value={label} onText={setLabel} micSize={26}>
             <input onKeyDown={(e) => e.key === "Enter" && add()} placeholder="Label (e.g. Launch checklist)" className="glass w-full rounded-xl px-3 py-2 text-sm outline-none" />
           </VoiceField>
-          <div className="mt-2 flex gap-1.5">
+          <div className="mt-2 flex flex-wrap gap-1.5">
             {Object.keys(TYPE_COLORS).map((t) => (
               <button key={t} onClick={() => setType(t)} className={`rounded-full px-2.5 py-1 text-[11px] transition ${type === t ? "text-white" : "bg-white/8 opacity-60 hover:opacity-100"}`} style={type === t ? { background: TYPE_COLORS[t] } : undefined}>
                 {t}

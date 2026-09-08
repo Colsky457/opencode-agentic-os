@@ -56,7 +56,7 @@ export function PromptBlock({ text }: { text: string }) {
           {copied ? "✓ copied!" : "copy 📋"}
         </button>
       </div>
-      <pre className="term overflow-x-auto p-3.5 whitespace-pre-wrap text-white/85">{text}</pre>
+      <pre className="term overflow-x-auto p-3.5 break-words whitespace-pre-wrap text-white/85">{text}</pre>
     </div>
   );
 }

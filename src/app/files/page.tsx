@@ -86,14 +86,14 @@ export default function FilesPage() {
               className={cn("flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left text-sm transition hover:bg-white/8", file?.path === it.path && "bg-[#ff6b1a]/15")}
             >
               <span>{it.dir ? "📁" : "📄"}</span>
-              <span className="flex-1 truncate font-mono text-[13px]">{it.name}</span>
+              <span className="min-w-0 flex-1 truncate font-mono text-[13px]">{it.name}</span>
               {!it.dir && <span className="text-[10px] opacity-40">{(it.size / 1024).toFixed(1)}k</span>}
             </button>
           ))}
           {items.length === 0 && <div className="py-6 text-center text-sm opacity-50">empty folder — agent workspaces appear here</div>}
         </div>
         <div className="mt-3 flex gap-2">
-          <VoiceField value={newName} onText={setNewName} micSize={24} className="flex-1">
+          <VoiceField value={newName} onText={setNewName} micSize={24} className="min-w-0 flex-1">
             <input onKeyDown={(e) => e.key === "Enter" && mkdir()} placeholder="new folder…" className="glass w-full flex-1 rounded-full px-3 py-1.5 text-xs outline-none" />
           </VoiceField>
           <button onClick={mkdir} className="glass rounded-full px-3 py-1.5 text-xs font-bold">+ dir</button>

@@ -24,6 +24,15 @@
 html,
 body {
   height: 100%;
+  overflow-x: clip;
+}
+
+/* page content can never widen the viewport (protects fixed chrome) */
+canvas,
+img,
+svg,
+pre {
+  max-width: 100%;
 }
 
 body {

@@ -20,9 +20,9 @@ export function Card({ className, children }: { className?: string; children: Re
 export function SectionTitle({ kicker, title, right }: { kicker: string; title: string; right?: ReactNode }) {
   return (
     <div className="mb-3 flex items-end justify-between gap-3">
-      <div>
+      <div className="min-w-0">
         <div className="text-[10px] font-semibold tracking-[0.28em] text-[#ff8c42] uppercase">{kicker}</div>
-        <h2 className="font-display text-lg font-bold tracking-tight sm:text-xl">{title}</h2>
+        <h2 className="font-display truncate text-lg font-bold tracking-tight sm:text-xl">{title}</h2>
       </div>
       {right}
     </div>

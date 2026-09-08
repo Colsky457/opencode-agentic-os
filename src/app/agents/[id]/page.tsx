@@ -179,7 +179,7 @@ export default function AgentDetailPage() {
         {/* deploy bar */}
         {agent.status !== "running" && (
           <div className="relative mt-4 flex gap-2">
-            <VoiceField value={task} onText={setTask} micSize={28} className="flex-1">
+            <VoiceField value={task} onText={setTask} micSize={28} className="min-w-0 flex-1">
               <input
                 onKeyDown={(e) => e.key === "Enter" && start()}
                 placeholder={`Order ${agent.name}…  (Enter to deploy)`}
@@ -191,7 +191,7 @@ export default function AgentDetailPage() {
         )}
 
         {/* tabs */}
-        <div className="relative mt-4 flex gap-1 rounded-full bg-black/25 p-1 sm:w-fit">
+        <div className="relative mt-4 flex max-w-full gap-1 overflow-x-auto rounded-full bg-black/25 p-1 sm:w-fit">
           {tabs.map((t) => (
             <button key={t.id} onClick={() => setTab(t.id)} className={cn("relative rounded-full px-4 py-1.5 text-xs font-bold transition", tab === t.id ? "text-white" : "opacity-55 hover:opacity-100")}>
               {tab === t.id && <motion.span layoutId={`agent-tab-${id}`} className="absolute inset-0 rounded-full bg-gradient-to-r from-[#ff6b1a] to-[#8b5cf6]" transition={{ type: "spring", stiffness: 400, damping: 32 }} />}
@@ -207,8 +207,8 @@ export default function AgentDetailPage() {
             <div className="grid gap-4 lg:grid-cols-2">
               <Card>
                 <SectionTitle kicker="dossier" title="Persona" />
-                <p className="text-sm opacity-75">{agent.persona}</p>
-                <div className="mt-3 rounded-2xl bg-black/25 p-3 text-sm whitespace-pre-wrap opacity-80">{agent.systemPrompt}</div>
+                <p className="text-sm break-words opacity-75">{agent.persona}</p>
+                <div className="mt-3 rounded-2xl bg-black/25 p-3 text-sm break-words whitespace-pre-wrap opacity-80">{agent.systemPrompt}</div>
                 {agent.lastTask && <div className="mt-3 text-xs opacity-50">last task: <span className="opacity-80">{agent.lastTask}</span></div>}
               </Card>
               <Card>
@@ -220,9 +220,9 @@ export default function AgentDetailPage() {
                     { k: "SPEND", v: `$${(stats?.cost ?? 0).toFixed(4)}` },
                     { k: "CHATS", v: String(stats?.chats ?? 0) },
                   ].map((c) => (
-                    <div key={c.k} className="rounded-2xl bg-white/5 p-3">
-                      <div className="text-[10px] font-semibold tracking-[0.2em] opacity-50">{c.k}</div>
-                      <div className="font-display text-xl font-black">{c.v}</div>
+                    <div key={c.k} className="min-w-0 rounded-2xl bg-white/5 p-3">
+                      <div className="text-[10px] font-semibold tracking-[0.2em] break-words opacity-50">{c.k}</div>
+                      <div className="font-display text-xl font-black break-words">{c.v}</div>
                     </div>
                   ))}
                 </div>
@@ -242,7 +242,7 @@ export default function AgentDetailPage() {
                   </label>
                 }
               />
-              <pre ref={logRef} className="term max-h-[55vh] overflow-y-auto rounded-2xl bg-black/50 p-4 whitespace-pre-wrap text-white/85">
+              <pre ref={logRef} className="term max-h-[55vh] overflow-y-auto rounded-2xl bg-black/50 p-4 break-words whitespace-pre-wrap text-white/85">
                 {(log || "— console ready. deploy a task to see live output —").slice(-12000)}
                 {agent.status === "running" && <span className="stream-caret" />}
               </pre>
@@ -259,7 +259,7 @@ export default function AgentDetailPage() {
                   {files.map((f) => (
                     <div key={f.path} className="flex items-center gap-2 rounded-xl bg-white/5 px-3 py-2 text-sm">
                       <span>{f.dir ? "📁" : "📄"}</span>
-                      <span className="flex-1 truncate font-mono text-[13px]">{f.name}</span>
+                      <span className="min-w-0 flex-1 truncate font-mono text-[13px]">{f.name}</span>
                       {!f.dir && <span className="text-[11px] opacity-40">{(f.size / 1024).toFixed(1)}k</span>}
                     </div>
                   ))}
@@ -310,7 +310,7 @@ export default function AgentDetailPage() {
               <VoiceField value={draft.systemPrompt} onText={(v) => setDraft({ ...draft, systemPrompt: v })} multiline micSize={28} className="mt-2.5">
                 <textarea rows={4} placeholder="System prompt" className="glass w-full rounded-xl px-3 py-2 text-sm outline-none" />
               </VoiceField>
-              <div className="mt-3 flex gap-2">
+              <div className="mt-3 flex flex-wrap gap-2">
                 <button onClick={save} className="rounded-full bg-emerald-500/85 px-5 py-2 text-sm font-bold text-white hover:bg-emerald-500">save ✓</button>
                 <button onClick={retire} className="rounded-full border border-red-400/40 bg-red-400/10 px-5 py-2 text-sm font-bold text-red-300 hover:bg-red-400/20">retire agent</button>
               </div>

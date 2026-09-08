@@ -2,8 +2,9 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useTheme } from "next-themes";
-import { useEffect } from "react";
-import { APPS, useOs } from "@/lib/os-store";
+import { useEffect, useState } from "react";
+import { useOs } from "@/lib/os-store";
+import { NavDrawer } from "@/components/os/NavDrawer";
 import { cn } from "@/lib/utils";
 
 export function TopBar() {
@@ -15,6 +16,7 @@ export function TopBar() {
   const quotaError = useOs((s) => s.claudeQuotaError);
   const demoMode = useOs((s) => s.demoMode);
   const serverAddr = useOs((s) => s.serverAddr);
+  const [navOpen, setNavOpen] = useState(false);
 
   useEffect(() => {
     fetch("/api/status")
@@ -40,7 +42,7 @@ export function TopBar() {
 
   return (
     <header className="glass sticky top-0 z-40 flex h-14 items-center gap-3 px-4">
-      <div className="flex items-center gap-2.5">
+      <button onClick={() => setNavOpen(true)} title="Open navigation" aria-label="Open navigation" className="flex items-center gap-2.5 rounded-xl text-left transition hover:opacity-80">
         <div className="ring-conic rounded-xl p-[2px]">
           <div className="flex h-8 w-8 items-center justify-center rounded-[10px] bg-[#0b0e1d] text-lg dark:bg-[#0b0e1d]">
             ◈
@@ -54,7 +56,8 @@ export function TopBar() {
             mission control
           </div>
         </div>
-      </div>
+      </button>
+      <NavDrawer open={navOpen} onClose={() => setNavOpen(false)} />
 
       {/* provider link status */}
       <div

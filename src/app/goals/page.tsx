@@ -101,8 +101,8 @@ export default function GoalsPage() {
               <VoiceField value={notes} onText={setNotes} multiline micSize={28} className="mt-2.5">
                 <textarea rows={3} placeholder="Notes, plan, acceptance criteria…" className="glass w-full rounded-xl px-3 py-2 text-sm outline-none" />
               </VoiceField>
-              <div className="mt-2.5 flex gap-2">
-                <input value={due} onChange={(e) => setDue(e.target.value)} placeholder="due (e.g. 2026-10-01)" className="glass rounded-xl px-3 py-2 text-sm outline-none" />
+              <div className="mt-2.5 flex flex-wrap gap-2">
+                <input value={due} onChange={(e) => setDue(e.target.value)} placeholder="due (e.g. 2026-10-01)" className="glass min-w-0 flex-1 rounded-xl px-3 py-2 text-sm outline-none" />
                 <button onClick={create} className="rounded-full bg-gradient-to-r from-[#ff6b1a] to-[#ff9a3d] px-5 py-2 text-sm font-bold text-white">Set goal ◎</button>
                 <button onClick={() => setShowNew(false)} className="glass rounded-full px-4 py-2 text-sm">cancel</button>
               </div>
@@ -140,7 +140,7 @@ export default function GoalsPage() {
                   {editing === g.id ? (
                     <input value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} className="w-full rounded-lg bg-black/30 px-2 py-1 text-sm font-bold outline-none" />
                   ) : (
-                    <div className={cn("font-display font-bold", g.status === "done" && "line-through opacity-50")}>{g.title}</div>
+                    <div className={cn("font-display font-bold break-words", g.status === "done" && "line-through opacity-50")}>{g.title}</div>
                   )}
                   <div className="mt-0.5 flex flex-wrap items-center gap-2 text-[11px] opacity-50">
                     <Pill tone={g.status === "active" ? "green" : g.status === "done" ? "violet" : "neutral"}>{g.status}</Pill>
@@ -159,7 +159,7 @@ export default function GoalsPage() {
                   </div>
                 </div>
               ) : (
-                g.notes && <p className="mt-2 line-clamp-3 text-sm whitespace-pre-wrap opacity-70">{g.notes}</p>
+                g.notes && <p className="mt-2 line-clamp-3 text-sm break-words whitespace-pre-wrap opacity-70">{g.notes}</p>
               )}
               <div className="mt-2.5 flex gap-3 text-xs opacity-60">
                 <button onClick={() => { setEditing(g.id); setDraft({ title: g.title, notes: g.notes, due: g.due }); }} className="hover:opacity-100 hover:underline">edit</button>

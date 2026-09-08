@@ -200,7 +200,7 @@ export default function ArenaPage() {
                 <div className="flex-1" />
                 <Pill tone={p.ok ? "green" : "red"}>{p.ok ? "answered" : "error"}</Pill>
               </div>
-              <div className="max-h-80 overflow-y-auto px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap">
+              <div className="max-h-80 overflow-y-auto px-4 py-3 text-sm leading-relaxed break-words whitespace-pre-wrap">
                 {p.ok ? p.text : <span className="text-red-300">{p.error}</span>}
               </div>
               {p.ok && (
@@ -237,7 +237,7 @@ export default function ArenaPage() {
               kicker={`${review.mode} · ${review.from} → ${review.label}`}
               title={`Cross-Review ${review.glyph}`}
             />
-            <div className="max-h-96 overflow-y-auto text-sm leading-relaxed whitespace-pre-wrap">{review.text}</div>
+            <div className="max-h-96 overflow-y-auto text-sm leading-relaxed break-words whitespace-pre-wrap">{review.text}</div>
           </Card>
         </motion.div>
       )}

@@ -145,7 +145,7 @@ export default function AutomationsPage() {
               {form.triggerKind === "cron" ? (
                 <input value={form.expr} onChange={(e) => setForm({ ...form, expr: e.target.value })} placeholder='daily 20:00 · hourly · every 30m · 0 9 * * *' className="mt-2 w-full rounded-lg bg-black/30 px-2.5 py-1.5 font-mono text-xs outline-none" />
               ) : (
-                <div className="mt-2 grid grid-cols-2 gap-1.5">
+                <div className="mt-2 grid gap-1.5 sm:grid-cols-2">
                   <input value={form.repo} onChange={(e) => setForm({ ...form, repo: e.target.value })} placeholder="repo (blank = any)" className="rounded-lg bg-black/30 px-2.5 py-1.5 text-xs outline-none" />
                   <input value={form.branch} onChange={(e) => setForm({ ...form, branch: e.target.value })} placeholder="branch (blank = any)" className="rounded-lg bg-black/30 px-2.5 py-1.5 text-xs outline-none" />
                 </div>
@@ -204,7 +204,7 @@ export default function AutomationsPage() {
               <div className="flex items-start gap-2">
                 <div className="min-w-0 flex-1">
                   <div className="truncate font-display font-bold">{a.name}</div>
-                  <div className="mt-0.5 text-xs opacity-60">{a.triggerLabel} → {a.actionLabel}</div>
+                  <div className="mt-0.5 text-xs break-words opacity-60">{a.triggerLabel} → {a.actionLabel}</div>
                 </div>
                 <button
                   onClick={() => toggle(a)}

@@ -44,9 +44,9 @@ export default function LessonPage() {
       <Card className="rounded-3xl">
         <GuideDoc md={lesson.body} docKey={`lesson-${n}`} />
         <PromptBlock text={lesson.prompt} />
-        <div className="mt-3 flex items-center gap-2 rounded-2xl bg-white/5 px-3.5 py-2.5 text-xs">
-          <span className="opacity-50">📁 See it built:</span>
-          <code className="font-mono text-[#22e6c8]">{lesson.codeRef.path}</code>
+        <div className="mt-3 flex flex-wrap items-center gap-2 rounded-2xl bg-white/5 px-3.5 py-2.5 text-xs">
+          <span className="shrink-0 opacity-50">📁 See it built:</span>
+          <code className="font-mono break-words text-[#22e6c8]">{lesson.codeRef.path}</code>
           <span className="opacity-40">({lesson.codeRef.label})</span>
         </div>
         <button
@@ -62,13 +62,13 @@ export default function LessonPage() {
 
       <div className="grid grid-cols-2 gap-3">
         {prev ? (
-          <Link href={`/guide/lesson/${prev.n}`} className="glass rounded-2xl p-3.5 transition hover:scale-[1.01]">
+          <Link href={`/guide/lesson/${prev.n}`} className="glass min-w-0 rounded-2xl p-3.5 transition hover:scale-[1.01]">
             <div className="text-[11px] opacity-50">← previous</div>
             <div className="truncate text-sm font-bold">{prev.icon} {prev.title}</div>
           </Link>
         ) : <span />}
         {next ? (
-          <Link href={`/guide/lesson/${next.n}`} className="glass rounded-2xl p-3.5 text-right transition hover:scale-[1.01]">
+          <Link href={`/guide/lesson/${next.n}`} className="glass min-w-0 rounded-2xl p-3.5 text-right transition hover:scale-[1.01]">
             <div className="text-[11px] opacity-50">next →</div>
             <div className="truncate text-sm font-bold">{next.icon} {next.title}</div>
           </Link>

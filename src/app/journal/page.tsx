@@ -110,11 +110,11 @@ export default function JournalPage() {
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: Math.min(i * 0.03, 0.2) }} className="glass group rounded-3xl p-4">
                   <div className="flex items-baseline gap-2">
                     {e.mood && <span className="text-lg">{e.mood}</span>}
-                    <div className="font-display flex-1 font-bold">{e.title}</div>
-                    <span className="text-[11px] opacity-40">{formatClock(e.ts)}</span>
+                    <div className="font-display min-w-0 flex-1 font-bold break-words">{e.title}</div>
+                    <span className="shrink-0 text-[11px] opacity-40">{formatClock(e.ts)}</span>
                   </div>
-                  {e.body && <p className="mt-1.5 text-sm whitespace-pre-wrap opacity-75">{e.body}</p>}
-                  <button onClick={() => remove(e.id)} className="mt-1 text-[11px] opacity-0 transition group-hover:opacity-50 hover:!opacity-100 hover:text-red-300 hover:underline">
+                  {e.body && <p className="mt-1.5 text-sm break-words whitespace-pre-wrap opacity-75">{e.body}</p>}
+                  <button onClick={() => remove(e.id)} className="mt-1 text-[11px] opacity-60 transition hover:text-red-300 hover:underline lg:opacity-0 lg:group-hover:opacity-50 lg:hover:!opacity-100">
                     delete
                   </button>
                 </motion.div>

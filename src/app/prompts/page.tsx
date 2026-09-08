@@ -50,13 +50,13 @@ export default function PromptsPage() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-3">
-        <div>
+      <div className="flex flex-wrap items-center gap-3">
+        <div className="min-w-0">
           <div className="text-[10px] font-semibold tracking-[0.28em] text-[#ff8c42] uppercase">library</div>
           <h1 className="font-display text-2xl font-black tracking-tight sm:text-3xl">Prompt Library</h1>
         </div>
         <div className="flex-1" />
-        <VoiceField value={q} onText={setQ} micSize={24} className="w-40 sm:w-56">
+        <VoiceField value={q} onText={setQ} micSize={24} className="w-40 min-w-0 flex-1 sm:w-56 sm:flex-none">
           <input placeholder="search…" className="glass w-full rounded-full px-3 py-1.5 text-sm outline-none" />
         </VoiceField>
         <button onClick={() => setShowNew((s) => !s)} className="glow-orange rounded-full bg-gradient-to-r from-[#ff6b1a] to-[#ff9a3d] px-4 py-2 text-sm font-bold text-white">+ New</button>
@@ -88,7 +88,7 @@ export default function PromptsPage() {
                 <div className="font-display flex-1 truncate font-bold">{p.title}</div>
                 <span className="text-[11px] opacity-50">×{p.uses}</span>
               </div>
-              <p className="mt-1 line-clamp-3 text-sm opacity-70">{p.body}</p>
+              <p className="mt-1 line-clamp-3 text-sm break-words opacity-70">{p.body}</p>
               <div className="mt-2 flex flex-wrap gap-1.5">
                 {p.tags.map((t) => (
                   <span key={t} className="rounded-full bg-white/8 px-2 py-0.5 text-[11px] opacity-70">#{t}</span>

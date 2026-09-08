@@ -139,7 +139,7 @@ export default function ToolsPage() {
             {tools.map((t) => (
               <div key={t.id} className="flex flex-wrap items-center gap-2 rounded-xl bg-white/5 px-3 py-2.5">
                 <div className="min-w-0 flex-1">
-                  <div className="text-sm font-bold">
+                  <div className="text-sm font-bold break-words">
                     {t.label} <span className="font-mono text-[10px] font-normal opacity-40">{t.id}</span>
                   </div>
                   <div className="truncate text-[11px] opacity-50">{t.detail}</div>
@@ -168,7 +168,7 @@ export default function ToolsPage() {
               {tools.map((t) => {
                 const eff: string = t.overrides[a.id] ?? "inherit";
                 return (
-                  <div key={t.id} className="flex items-center gap-2 text-xs">
+                  <div key={t.id} className="flex flex-wrap items-center gap-2 text-xs">
                     <span className="min-w-0 flex-1 truncate opacity-70">{t.label}</span>
                     {(["inherit", "allow", "ask", "disabled"] as Level[]).map((l) => (
                       <button

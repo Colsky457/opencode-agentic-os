@@ -78,7 +78,7 @@ export default function DigestPage() {
                   {data.today.fallback ? `via ${data.today.provider} (fallback)` : `via ${data.today.provider}`}
                 </Pill>
               </div>
-              <div className="font-mono text-xs opacity-70">{data.today.notePath}</div>
+              <div className="font-mono text-xs break-words opacity-70">{data.today.notePath}</div>
               <div className="text-xs opacity-50">
                 {data.today.attempts} attempt(s) · {data.today.inputTokens}+{data.today.outputTokens} tokens · ${Number(data.today.costUsd).toFixed(4)}
               </div>
@@ -95,7 +95,7 @@ export default function DigestPage() {
           >
             {busy === "run" ? "✍️ Hermes is writing… (up to a few min)" : "▶ Run now"}
           </button>
-          {msg && <div className="mt-2 font-mono text-[11px] opacity-80">{msg}</div>}
+          {msg && <div className="mt-2 font-mono text-[11px] break-words opacity-80">{msg}</div>}
         </Card>
 
         <Card>
@@ -123,11 +123,11 @@ export default function DigestPage() {
               </div>
               <details className="rounded-xl bg-black/30 p-2.5 text-[11px]">
                 <summary className="cursor-pointer opacity-60">cron list</summary>
-                <pre className="term mt-1 whitespace-pre-wrap opacity-80">{data.cron.list || "(empty)"}</pre>
+                <pre className="term mt-1 break-words whitespace-pre-wrap opacity-80">{data.cron.list || "(empty)"}</pre>
               </details>
               <details className="rounded-xl bg-black/30 p-2.5 text-[11px]">
                 <summary className="cursor-pointer opacity-60">recent runs</summary>
-                <pre className="term mt-1 whitespace-pre-wrap opacity-80">{data.cron.runs || "(none yet)"}</pre>
+                <pre className="term mt-1 break-words whitespace-pre-wrap opacity-80">{data.cron.runs || "(none yet)"}</pre>
               </details>
               <div className="flex gap-2">
                 <button onClick={() => act("cron", "run")} disabled={!!busy} className="glass rounded-full px-4 py-1.5 text-xs font-bold disabled:opacity-40">fire now</button>

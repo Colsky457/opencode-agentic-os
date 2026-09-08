@@ -58,11 +58,11 @@ export default function SettingsPage() {
           </div>
           {status?.lastError && (
             <div className="rounded-xl border border-amber-400/40 bg-amber-400/10 p-3 text-[13px]">
-              <b className="text-amber-300">Last error:</b> <span className="opacity-80">{String(status.lastError).slice(0, 220)}</span>
+              <b className="text-amber-300">Last error:</b> <span className="break-words opacity-80">{String(status.lastError).slice(0, 220)}</span>
             </div>
           )}
           <p className="text-xs opacity-50">
-            Requires the <span className="font-mono">claude</span> CLI logged in with quota.
+            Requires your default provider CLI logged in with quota.
             API errors (e.g. exhausted budget) surface inline in chat until resolved.
           </p>
         </div>
@@ -73,10 +73,11 @@ export default function SettingsPage() {
         <div className="space-y-1.5">
           {(setup?.providers ?? []).map((p: any) => (
             <div key={p.id} className="flex items-center gap-2.5 rounded-xl bg-white/5 px-3 py-2 text-sm">
-              <span className={`h-2 w-2 rounded-full ${p.installed ? "bg-emerald-400" : "bg-white/20"}`} />
-              <span className="font-bold">{p.label}</span>
-              <span className="font-mono text-[11px] opacity-50">{p.bin}{p.version ? ` · ${p.version}` : ""}</span>
-              <span className="flex-1" />
+              <span className={`h-2 w-2 shrink-0 rounded-full ${p.installed ? "bg-emerald-400" : "bg-white/20"}`} />
+              <div className="min-w-0 flex-1 leading-tight">
+                <div className="truncate font-bold">{p.label}</div>
+                <div className="truncate font-mono text-[11px] opacity-50">{p.bin}{p.version ? ` · ${p.version}` : ""}</div>
+              </div>
               {p.installed ? (p.supported ? <Pill tone="green">ready</Pill> : <Pill tone="violet">soon</Pill>) : <Pill tone="neutral">missing</Pill>}
             </div>
           ))}
@@ -106,7 +107,7 @@ export default function SettingsPage() {
                 />
               </div>
             ))}
-            <div className="flex items-center gap-2 text-sm">
+            <div className="flex flex-wrap items-center gap-2 text-sm">
               <span className="w-28 shrink-0 font-bold">Fallback</span>
               <select
                 value={routing.fallback}

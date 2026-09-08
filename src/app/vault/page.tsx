@@ -105,7 +105,7 @@ export default function VaultPage() {
                 onChange={(e) => setQ(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && search()}
                 placeholder="Ask across all notes & docs…"
-                className="glass flex-1 rounded-full px-4 py-2.5 text-sm outline-none placeholder:text-white/30 focus:border-[#22e6c8]/60"
+                className="glass min-w-0 flex-1 rounded-full px-4 py-2.5 text-sm outline-none placeholder:text-white/30 focus:border-[#22e6c8]/60"
               />
               <button onClick={() => search()} disabled={searching || !q.trim()} className="glow-orange rounded-full bg-gradient-to-r from-[#ff6b1a] to-[#ff9a3d] px-5 py-2.5 text-sm font-bold text-white transition hover:scale-105 disabled:opacity-40">
                 {searching ? "…" : "🔍"}
@@ -115,12 +115,12 @@ export default function VaultPage() {
               {hits.map((h) => (
                 <button key={h.id} onClick={() => search(h.title)} className="block w-full rounded-xl bg-white/5 px-3.5 py-2.5 text-left transition hover:bg-white/10">
                   <div className="flex items-center gap-2">
-                    <span className="truncate text-sm font-bold">{h.title}</span>
+                    <span className="min-w-0 flex-1 truncate text-sm font-bold">{h.title}</span>
                     <span className="flex-1" />
                     <Pill tone={h.method === "semantic" ? "green" : "neutral"}>{h.method}</Pill>
                     <span className="font-mono text-[10px] opacity-40">{h.score}</span>
                   </div>
-                  <div className="mt-1 line-clamp-2 text-xs opacity-60">{h.text}</div>
+                  <div className="mt-1 line-clamp-2 text-xs break-words opacity-60">{h.text}</div>
                   <div className="mt-1 truncate font-mono text-[10px] opacity-40">{h.file}</div>
                 </button>
               ))}
@@ -142,7 +142,7 @@ export default function VaultPage() {
                 {(status.fileList ?? []).map((f) => (
                   <div key={f.file} className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-sm transition hover:bg-white/5">
                     <span>{f.file.toLowerCase().endsWith(".pdf") ? "📕" : "📄"}</span>
-                    <span className="flex-1 truncate font-mono text-[12px]">{f.file}</span>
+                    <span className="min-w-0 flex-1 truncate font-mono text-[12px]">{f.file}</span>
                     <span className="text-[10px] opacity-40">{f.chunks} chunks</span>
                   </div>
                 ))}
@@ -171,7 +171,7 @@ export default function VaultPage() {
                 </div>
               )}
               {prog && !prog.running && prog.errors.length > 0 && (
-                <div className="rounded-lg bg-red-400/10 p-2 text-[11px] text-red-300">{prog.errors.slice(0, 3).join(" · ")}</div>
+                <div className="rounded-lg bg-red-400/10 p-2 text-[11px] break-words text-red-300">{prog.errors.slice(0, 3).join(" · ")}</div>
               )}
             </div>
             <button onClick={indexNow} disabled={prog?.running} className="mt-3 w-full rounded-full bg-gradient-to-r from-[#22e6c8] to-[#4da6ff] py-2 text-sm font-bold text-white transition hover:scale-[1.02] disabled:opacity-40">

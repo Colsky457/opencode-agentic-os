@@ -34,7 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <ParticleField />
             </div>
             <TopBar />
-            <main className="mx-auto w-full max-w-6xl px-4 pt-5 pb-28 md:pr-20">{children}</main>
+            <main className="mx-auto w-full max-w-6xl px-4 pt-5 pb-10 md:pr-20">{children}</main>
             <Sidebar />
             <CommandPalette />
           </div>

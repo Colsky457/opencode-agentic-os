@@ -28,7 +28,7 @@ export function renderMarkdown(
                   onClick={() => opts?.onToggleCheck?.(`${out.length}:${li.text}`, li.text)}
                 />
               ) : null}
-              <span className={li.check !== null ? "opacity-90" : undefined}>{inline(li.text)}</span>
+              <span className={li.check !== null ? "opacity-90 break-words" : "break-words"}>{inline(li.text)}</span>
             </li>
           ))}
         </ul>
@@ -41,7 +41,7 @@ export function renderMarkdown(
       out.push(
         <div key={`q-${out.length}`} className="my-2 rounded-xl border border-[#ffd166]/35 bg-[#ffd166]/8 px-3 py-2 text-[0.95em]">
           {quote.map((q, i) => (
-            <p key={i}>{inline(q)}</p>
+            <p key={i} className="break-words">{inline(q)}</p>
           ))}
         </div>
       );
@@ -99,13 +99,13 @@ export function renderMarkdown(
     const h = /^(#{1,3})\s+(.*)/.exec(ln);
     if (h) {
       out.push(
-        <div key={i} className="mt-1 font-display font-bold">
+          <div key={i} className="mt-1 font-display font-bold break-words">
           {inline(h[2])}
         </div>
       );
       return;
     }
-    out.push(<p key={i}>{inline(ln)}</p>);
+    out.push(<p key={i} className="break-words">{inline(ln)}</p>);
   });
   flushList();
   flushQuote();
@@ -142,7 +142,7 @@ function inline(s: string): React.ReactNode[] {
   return parts.map((p, i) => {
     if (p.startsWith("`") && p.endsWith("`") && p.length > 2)
       return (
-        <code key={i} className="rounded-md bg-black/35 px-1.5 py-0.5 font-mono text-[0.85em]">
+        <code key={i} className="rounded-md bg-black/35 px-1.5 py-0.5 font-mono break-words text-[0.85em]">
           {p.slice(1, -1)}
         </code>
       );

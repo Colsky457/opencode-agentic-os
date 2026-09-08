@@ -130,7 +130,7 @@ export default function SetupPage() {
                         {p.label} <span className="font-mono text-[11px] font-normal opacity-50">{p.bin}{p.version ? ` · ${p.version}` : ""}</span>
                       </div>
                       {!p.installed ? (
-                        <div className="term mt-0.5 text-[11px] opacity-60">not found — <span className="text-[#22e6c8]">{p.installHint}</span></div>
+                        <div className="term mt-0.5 text-[11px] break-words opacity-60">not found — <span className="text-[#22e6c8]">{p.installHint}</span></div>
                       ) : !p.supported ? (
                         <div className="text-[11px] opacity-60">detected — full support coming soon</div>
                       ) : (
@@ -148,7 +148,7 @@ export default function SetupPage() {
               </div>
               {installed.length === 0 && (
                 <div className="mt-3 rounded-2xl border border-amber-400/40 bg-amber-400/10 p-3 text-sm">
-                  No AI CLI found. Install one (e.g. <span className="font-mono">npm install -g @anthropic-ai/claude-code</span>), then refresh — or continue and explore in demo mode.
+                  No AI CLI found. Install one (e.g. <span className="font-mono break-words">npm install -g @anthropic-ai/claude-code</span>), then refresh — or continue and explore in demo mode.
                 </div>
               )}
             </Card>
@@ -159,11 +159,11 @@ export default function SetupPage() {
               <SectionTitle kicker="step 2" title="Second-brain vault" />
               <p className="mb-2 text-sm opacity-60">Chats, goals, and journal entries save here as markdown. Point it at your Obsidian vault or keep the default.</p>
               <div className="flex gap-2">
-                <input value={vault} onChange={(e) => setVault(e.target.value)} placeholder="~/brain" className="glass flex-1 rounded-xl px-3 py-2 font-mono text-sm outline-none" />
+                <input value={vault} onChange={(e) => setVault(e.target.value)} placeholder="~/brain" className="glass min-w-0 flex-1 rounded-xl px-3 py-2 font-mono text-sm outline-none" />
                 <button onClick={checkVault} className="glass rounded-xl px-4 py-2 text-sm font-bold">test ✎</button>
               </div>
-              {vaultOk && <div className="mt-2 rounded-xl border border-emerald-400/40 bg-emerald-400/10 p-2.5 text-xs">✓ writable → <span className="font-mono">{vaultOk}/Agentic OS/</span></div>}
-              {vaultErr && <div className="mt-2 rounded-xl border border-red-400/40 bg-red-400/10 p-2.5 text-xs">✗ {vaultErr}</div>}
+              {vaultOk && <div className="mt-2 rounded-xl border border-emerald-400/40 bg-emerald-400/10 p-2.5 text-xs break-words">✓ writable → <span className="font-mono">{vaultOk}/Agentic OS/</span></div>}
+              {vaultErr && <div className="mt-2 rounded-xl border border-red-400/40 bg-red-400/10 p-2.5 text-xs break-words">✗ {vaultErr}</div>}
             </Card>
           )}
 

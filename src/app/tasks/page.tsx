@@ -364,7 +364,7 @@ function TaskCard({
       </div>
 
       {openLog === task.id && (
-        <pre className="term mt-2 max-h-48 overflow-y-auto rounded-xl bg-black/50 p-2.5 text-[11px] whitespace-pre-wrap text-white/80">
+        <pre className="term mt-2 max-h-48 overflow-y-auto rounded-xl bg-black/50 p-2.5 text-[11px] break-words whitespace-pre-wrap text-white/80">
           {(log || "— no output yet —").slice(-6000)}
         </pre>
       )}

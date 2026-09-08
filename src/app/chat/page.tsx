@@ -316,7 +316,7 @@ function ChatInner() {
   return (
     <div className="grid gap-4 lg:grid-cols-[290px_1fr]">
       {/* ── session rail ── */}
-      <Card className="h-fit p-3">
+      <Card className={cn("h-fit p-3", !showNew && "hidden lg:block")}>
         <div className="mb-2 flex items-center gap-2 px-1">
           <AgentAvatar seed={agentId || "direct"} seedNum={activeAgent?.avatarSeed ?? 0} color={activeAgent?.color ?? "#ff6b1a"} name={activeAgent?.name ?? "AI"} size={34} status={activeAgent?.status ?? null} />
           <div className="min-w-0 flex-1 leading-tight">
@@ -364,7 +364,7 @@ function ChatInner() {
                   <span className="block truncate font-semibold">{s.title}</span>
                   <span className="block text-[11px] opacity-50">
                     {s.count} msgs · {dayLabel(s.updatedAt)}
-                    {s.provider && s.provider !== "claude" ? ` · ${(providers.find((p) => p.id === s.provider)?.glyph ?? "")} ${(providers.find((p) => p.id === s.provider)?.label ?? s.provider)}` : ""}
+                    {s.provider ? ` · ${(providers.find((p) => p.id === s.provider)?.glyph ?? "")} ${(providers.find((p) => p.id === s.provider)?.label ?? s.provider)}` : ""}
                   </span>
                 </span>
               </button>
@@ -378,24 +378,31 @@ function ChatInner() {
         </div>
       </Card>
 
+      {/* mobile session toggle */}
+      <div className="lg:hidden">
+        <button onClick={() => setShowNew((s) => !s)} className="glass w-full rounded-2xl py-2 text-xs opacity-70">
+          {showNew ? "hide sessions ▴" : "browse sessions ▾"}
+        </button>
+      </div>
+
       {/* ── thread ── */}
       <Card className="flex min-h-[72vh] flex-col p-0">
         {/* thread header */}
-        <div className="flex items-center gap-3 border-b border-white/8 px-4 py-3">
+        <div className="flex flex-wrap items-center gap-2 border-b border-white/8 px-3 py-3 sm:gap-3 sm:px-4">
           {activeAgent ? (
-            <Link href={`/agents/${activeAgent.id}`} className="avatar-hover flex items-center gap-3">
+            <Link href={`/agents/${activeAgent.id}`} className="avatar-hover flex min-w-0 items-center gap-3">
               <AgentAvatar seed={activeAgent.id} seedNum={activeAgent.avatarSeed ?? 0} color={activeAgent.color} name={activeAgent.name} size={38} status={activeAgent.status ?? null} />
-              <span>
-                <span className="block font-display text-[15px] font-bold leading-tight">{activeAgent.name} <span className="font-normal opacity-40">→ profile</span></span>
-                <span className="block text-[11px] opacity-50">{activeAgent.status === "running" ? "● live process" : activeAgent.persona}</span>
+              <span className="min-w-0">
+                <span className="block truncate font-display text-[15px] font-bold leading-tight">{activeAgent.name} <span className="font-normal opacity-40">→ profile</span></span>
+                <span className="block truncate text-[11px] opacity-50">{activeAgent.status === "running" ? "● live process" : activeAgent.persona}</span>
               </span>
             </Link>
           ) : (
-            <div className="flex items-center gap-3">
-              <span className="flex h-[38px] w-[38px] items-center justify-center rounded-xl bg-gradient-to-br from-[#ff6b1a] to-[#8b5cf6] text-lg text-white glow-orange">✦</span>
-              <span>
+            <div className="flex min-w-0 items-center gap-3">
+              <span className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#ff6b1a] to-[#8b5cf6] text-lg text-white glow-orange">✦</span>
+              <span className="min-w-0">
                 <span className="block font-display text-[15px] font-bold leading-tight">Direct</span>
-                <span className="block text-[11px] opacity-50">
+                <span className="block truncate text-[11px] opacity-50">
                   direct · {(() => {
                     const p = providers.find((x) => x.id === provider);
                     return p ? `${p.glyph} ${p.label}${p.streaming === false ? " (answers whole)" : ""}` : "AI provider";
@@ -421,7 +428,7 @@ function ChatInner() {
               value={provider}
               onChange={(e) => { setProvider(e.target.value); setRoute(null); }}
               title="AI provider — Auto routes by keywords, or pick one to override"
-              className="rounded-full border border-white/15 bg-black/30 px-3 py-1.5 text-xs outline-none"
+              className="max-w-[128px] truncate rounded-full border border-white/15 bg-black/30 px-3 py-1.5 text-xs outline-none"
             >
               <option value="auto">✨ Auto</option>
               {providers.map((p) => (
@@ -439,13 +446,13 @@ function ChatInner() {
               {route.live ? "→" : "Auto:"} {route.glyph} {route.label}
             </span>
           )}
-          <select value={model} onChange={(e) => setModel(e.target.value)} className="rounded-full border border-white/15 bg-black/30 px-3 py-1.5 text-xs outline-none">
+          <select value={model} onChange={(e) => setModel(e.target.value)} className="max-w-[128px] truncate rounded-full border border-white/15 bg-black/30 px-3 py-1.5 text-xs outline-none">
             {models.map((m) => <option key={m} value={m}>{m}</option>)}
           </select>
         </div>
 
         {/* messages */}
-        <div ref={scrollRef} onScroll={onScroll} className="relative max-h-[52vh] min-h-[38vh] flex-1 space-y-1 overflow-y-auto px-4 py-4">
+        <div ref={scrollRef} onScroll={onScroll} className="relative max-h-[62vh] min-h-[38vh] flex-1 space-y-1 overflow-y-auto px-4 py-4 lg:max-h-[52vh]">
           {msgs.length === 0 && (
             <div className="py-8 text-center">
               <motion.div animate={{ y: [0, -8, 0] }} transition={{ repeat: Infinity, duration: 3 }}>
@@ -492,7 +499,7 @@ function ChatInner() {
                   ) : (
                     <span className="w-[30px] shrink-0" />
                   )}
-                  <div className={cn("max-w-[82%] sm:max-w-[75%]")}>
+                  <div className="min-w-0 max-w-[82%] break-words sm:max-w-[75%]">
                     {!grouped && (
                       <div className={cn("mb-0.5 flex items-baseline gap-2 text-[11px] opacity-50", isUser && "flex-row-reverse")}>
                         <span className="font-bold">{isUser ? "You" : activeAgent?.name ?? providers.find((x) => x.id === provider)?.label ?? "AI"}</span>
@@ -501,7 +508,7 @@ function ChatInner() {
                     )}
                     <div className={cn("rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed", isUser ? "bubble-user" : "bubble-ai glass")}>
                       {m.content ? (
-                        isUser ? <span className="whitespace-pre-wrap">{m.content}</span> : renderMarkdown(m.content)
+                        isUser ? <span className="break-words whitespace-pre-wrap">{m.content}</span> : renderMarkdown(m.content)
                       ) : isStreamingBubble ? (
                         <span className="opacity-70"><TypingDots /></span>
                       ) : null}
@@ -529,7 +536,7 @@ function ChatInner() {
                                 <span className="truncate">{c.title}</span>
                               </button>
                               {open && (
-                                <div className="mt-1 rounded-xl border border-[#22e6c8]/25 bg-black/40 p-2 text-[11px] leading-relaxed whitespace-pre-wrap opacity-90">
+                                <div className="mt-1 rounded-xl border border-[#22e6c8]/25 bg-black/40 p-2 text-[11px] leading-relaxed break-words whitespace-pre-wrap opacity-90">
                                   {c.text}
                                   <div className="mt-1 font-mono text-[10px] opacity-50">{c.file} · chunk {c.chunkIndex + 1}</div>
                                 </div>
@@ -584,7 +591,7 @@ function ChatInner() {
             ⚡ {usage.input}+{usage.output} tokens · ${Number(usage.cost).toFixed(4)} · {(usage.ms / 1000).toFixed(1)}s
             {(() => {
               const p = providers.find((x) => x.id === provider);
-              return p && p.id !== "claude" ? ` · via ${p.glyph} ${p.label}` : "";
+              return p ? ` · via ${p.glyph} ${p.label}` : "";
             })()}
           </div>
         )}
@@ -616,13 +623,6 @@ function ChatInner() {
           </div>
         </div>
       </Card>
-
-      {/* mobile new-chat */}
-      <div className="lg:hidden">
-        <button onClick={() => setShowNew((s) => !s)} className="glass w-full rounded-2xl py-2 text-xs opacity-70">
-          {showNew ? "hide sessions ▴" : "browse sessions ▾"}
-        </button>
-      </div>
     </div>
   );
 }
