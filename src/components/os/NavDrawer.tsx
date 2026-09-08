@@ -18,6 +18,8 @@ export const ROUTES: Record<AppId, string> = {
   tasks: "/tasks",
   vault: "/vault",
   system: "/system",
+  hermesdash: "/hermesdash",
+  router: "/router",
   goals: "/goals",
   journal: "/journal",
   graph: "/graph",

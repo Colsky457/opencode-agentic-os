@@ -73,11 +73,13 @@ runner ships (`src/lib/runners.ts` is the seam — implement `Runner` + register
 | Prompts | `/prompts` | Template library, 1-click copy → chat |
 | Files | `/files` | Workspace browser + editor, jailed to `workspaces/` |
 | Usage | `/usage` | Token/cost charts + call ledger |
+| Hermes Board | `/hermesdash` | Embedded Hermes web console (`:9119`) with start/stop |
+| Router | `/router` | Embedded 9router gateway dashboard (`:20128`) — models, keys, routing |
 | Guide | `/guide` | 📖 Build-your-own manual: fast track + 6-lesson course, mirrored to vault |
 | Digest | `/digest` | 🌙 Nightly note: 8pm Hermes summary of chats/goals/journal → vault |
 | Settings | `/settings` | Provider detection, CLI health, theme, demo mode, re-run setup |
 
-OS chrome: boot sequence, ⌘K command palette, dock, particle field, dark/light.
+OS chrome: boot sequence, ⌘K command palette, logo nav drawer, desktop dock, particle field, dark/light.
 
 Every agent gets a **generative SVG avatar** (deterministic from its id —
 gradient anchored on its color, 6 geometric motifs + initial; 🎲 shuffle in
@@ -118,8 +120,8 @@ journal and writes one note to `<vault>/Agentic OS/Daily Notes/YYYY-MM-DD.md`
   `POST /api/digest/run`. Install it from the Digest page (`/digest` →
   "Install 8pm schedule") — it writes `~/.hermes/scripts/nightly-digest.sh`
   and creates the job. Pause/resume/fire-now live there too.
-- **Reliability**: Hermes is retried 3× with backoff, then Claude writes the
-  note instead (marked `author: claude (fallback)`). Same date rewrites the
+- **Reliability**: Hermes is retried 3× with backoff, then the fallback provider writes the
+  note instead (marked `author: <provider> (fallback)`). Same date rewrites the
   same file — never duplicates. Run history in `data/digest.json`.
 - **Tuning**: `os.config.json` → `digest: { enabled, time, noteDir, maxChars, retries, fallback }`.
 - **Caveat**: if the phone dozes at 8pm, Hermes fires the tick late — the note

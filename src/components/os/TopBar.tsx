@@ -41,6 +41,7 @@ export function TopBar() {
   }, [set]);
 
   return (
+    <>
     <header className="glass sticky top-0 z-40 flex h-14 items-center gap-3 px-4">
       <button onClick={() => setNavOpen(true)} title="Open navigation" aria-label="Open navigation" className="flex items-center gap-2.5 rounded-xl text-left transition hover:opacity-80">
         <div className="ring-conic rounded-xl p-[2px]">
@@ -57,7 +58,6 @@ export function TopBar() {
           </div>
         </div>
       </button>
-      <NavDrawer open={navOpen} onClose={() => setNavOpen(false)} />
 
       {/* provider link status */}
       <div
@@ -117,5 +117,7 @@ export function TopBar() {
         <div className="font-mono">LOCAL · {serverAddr ?? "…"}</div>
       </div>
     </header>
+    <NavDrawer open={navOpen} onClose={() => setNavOpen(false)} />
+    </>
   );
 }

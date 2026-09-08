@@ -21,6 +21,8 @@ export type AppId =
   | "usage"
   | "guide"
   | "digest"
+  | "hermesdash"
+  | "router"
   | "settings";
 
 interface OsState {
@@ -60,6 +62,8 @@ export const APPS: { id: AppId; name: string; icon: string; hint: string }[] = [
   { id: "tasks", name: "Task Queue", icon: "📋", hint: "Background Kanban" },
   { id: "vault", name: "Vault Explorer", icon: "📚", hint: "Search notes & docs" },
   { id: "system", name: "System Telemetry", icon: "📊", hint: "Host & fleet health" },
+  { id: "hermesdash", name: "Hermes Board", icon: "🖥️", hint: "Hermes web console · :9119" },
+  { id: "router", name: "Router", icon: "🔀", hint: "9router gateway · :20128" },
   { id: "goals", name: "Goals", icon: "◎", hint: "Missions & targets" },
   { id: "journal", name: "Journal", icon: "❝", hint: "Daily log" },
   { id: "graph", name: "Memory Graph", icon: "⋈", hint: "Shared memory" },
