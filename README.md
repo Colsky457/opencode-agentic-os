@@ -1,12 +1,20 @@
-# ◈ ClaudeOS — Mission Control
+# ◈ opencode-agentic-os — Mission Control
+
+[![Next.js](https://img.shields.io/badge/Next.js-16-black)](https://nextjs.org/)
+[![Tailwind](https://img.shields.io/badge/Tailwind-v4-38bdf8)](https://tailwindcss.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 
 Beautiful local operating system for managing **Claude Code CLI** + an AI agent fleet.
 Next.js 16 · Tailwind v4 · Framer Motion · localhost only.
 
+## Screenshots
+
+> Coming soon — PRs with screenshots/GIFs welcome.
+
 ## One-command start
 
 ```bash
-git clone <your-repo-url> claude-os && cd claude-os
+git clone https://github.com/Colsky457/opencode-agentic-os.git && cd opencode-agentic-os
 ./setup.sh
 # → opens at http://127.0.0.1:3000 (or your configured host:port)
 ```
@@ -135,6 +143,18 @@ Agents reuse the same bridge as detached processes with per-agent `cwd` +
 - **Mic missing** → needs Chrome/Edge/Safari + secure context (`127.0.0.1` OK).
 - **Android/Termux** → use `bun`, builds force `--webpack` (Turbopack has no
   android/arm64 bindings) — already wired into `npm run build`.
+
+## Stack
+
+Next.js 16 · React 19 · Tailwind v4 · Framer Motion · Zustand · Recharts · `react-force-graph-2d`
+
+## Contributing
+
+Issues and PRs welcome. Run `npm run lint` before pushing.
+
+## License
+
+MIT — see [LICENSE](./LICENSE).
 
 ## Safety
 
