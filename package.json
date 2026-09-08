@@ -1,0 +1,41 @@
+{
+  "name": "claude-mission-control",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Dopamine-inducing local mission control OS for Claude Code CLI + AI agents",
+  "scripts": {
+    "dev": "node scripts/run.mjs dev",
+    "build": "node scripts/run.mjs build",
+    "start": "node scripts/run.mjs start",
+    "setup": "sh setup.sh",
+    "lint": "eslint src --max-warnings=0"
+  },
+  "overrides": {
+    "sharp": "file:./stubs/sharp"
+  },
+  "dependencies": {
+    "@xenova/transformers": "^2.17.2",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.23.0",
+    "lucide-react": "^0.525.0",
+    "next": "^16.3.4",
+    "next-themes": "^0.4.6",
+    "onnxruntime-node": "file:stubs/onnxruntime-node",
+    "pdfjs-dist": "^6.3.289",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-force-graph-2d": "^1.27.0",
+    "recharts": "^2.15.3",
+    "tailwind-merge": "^3.3.1",
+    "zustand": "^5.0.6"
+  },
+  "devDependencies": {    "@tailwindcss/postcss": "^4.1.11",
+    "@types/node": "^22.15.0",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "eslint": "^9.28.0",
+    "eslint-config-next": "^16.3.4",
+    "tailwindcss": "^4.1.11",
+    "typescript": "^5.8.3"
+  }
+}

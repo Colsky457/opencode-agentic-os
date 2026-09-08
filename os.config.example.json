@@ -1,0 +1,31 @@
+{
+  "$comment": "ClaudeOS config — copy to os.config.json and edit. Env vars override everything (OS_PORT, OS_HOST, BRAIN_DIR, CLAUDE_BIN).",
+  "server": { "host": "127.0.0.1", "port": 3000 },
+  "paths": { "brain": "~/brain", "data": "./data", "workspaces": "./workspaces" },
+  "providers": {
+    "default": "claude",
+    "claude": { "bin": "claude", "enabled": true },
+    "codex": { "bin": "codex", "enabled": false },
+    "gemini": { "bin": "gemini", "enabled": false },
+    "opencode": { "bin": "opencode", "enabled": false },
+    "hermes": { "bin": "hermes", "enabled": false }
+  },
+  "chat": { "models": ["default", "opus", "sonnet", "haiku"], "permissionMode": "dontAsk" },
+  "ui": { "theme": "system", "demoMode": false },
+  "digest": { "enabled": true, "time": "20:00", "noteDir": "Daily Notes", "maxChars": 12000, "retries": 3, "fallback": "claude" },
+  "routing": {
+    "$comment": "Keyword auto-routing for chat. First match wins; ties break toward this order. Edit freely.",
+    "fallback": "claude",
+    "keywords": {
+      "claude": ["architect", "plan", "review", "design"],
+      "opencode": ["build", "refactor", "fix code", "test", "git"],
+      "hermes": ["note", "journal", "goal", "summary", "quick question"]
+    }
+  },
+  "platforms": {
+    "$comment": "Optional overrides. Built-in defaults: opencode = Lead Developer Agent, claude = Senior System Architect and Auditor, hermes = Operations Manager. Only set keys you want to change.",
+    "opencode": { "role": "", "systemPrompt": "" },
+    "claude": { "role": "", "systemPrompt": "" },
+    "hermes": { "role": "", "systemPrompt": "" }
+  }
+}

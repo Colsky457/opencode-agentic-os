@@ -1,0 +1,29 @@
+# deps + build
+node_modules/
+.next/
+out/
+
+# local memory + workspaces (machine-local state)
+data/
+workspaces/
+
+# brain vault (symlink → ~/brain, personal knowledge)
+brain/
+brain
+
+# build info
+*.tsbuildinfo
+
+# env
+.env
+.env*.local
+
+# personal config (ship the example, not yours)
+os.config.json
+
+# logs
+*.log
+npm-debug.log*
+
+# os
+.DS_Store

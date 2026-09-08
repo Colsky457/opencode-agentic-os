@@ -1,0 +1,7 @@
+{
+  "name": "sharp",
+  "version": "0.32.6",
+  "description": "Local stub: Agentic OS only uses @xenova/transformers for text embeddings, never images. Any actual call throws.",
+  "main": "index.js",
+  "license": "MIT"
+}

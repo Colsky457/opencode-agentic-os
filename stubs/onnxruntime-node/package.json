@@ -1,0 +1,7 @@
+{
+  "name": "onnxruntime-node",
+  "version": "1.14.0",
+  "description": "Local stub: re-exports onnxruntime-web so @xenova/transformers runs on WASM where native bindings are unavailable (e.g. Termux/Android).",
+  "main": "index.js",
+  "license": "MIT"
+}
